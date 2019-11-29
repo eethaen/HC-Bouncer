@@ -30,11 +30,74 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d5afe06eba19374489876567ecd8e764,
         type: 3}
+    - target: {fileID: 5768112226191235125, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0b31e76a6b248cb418fbd4eabb803e0e,
+        type: 3}
+    - target: {fileID: 5768112226191235125, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5768112226191235125, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5768112226191235125, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465796689374422996, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1e133d4a6cd4a204b911c7de5556fb72,
+        type: 3}
+    - target: {fileID: 3465796689374422996, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465796689374422996, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465796689374422996, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1661332927837140038, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1f93c0c92d5bd8e408c459c9c5764e8b,
+        type: 3}
+    - target: {fileID: 1661332927837140038, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 1661332927837140038, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 1661332927837140038, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5994224715724908121, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d5afe06eba19374489876567ecd8e764,
+      objectReference: {fileID: 21300000, guid: 5ef5d2a65d7710b47b0bad7365235510,
         type: 3}
     - target: {fileID: 5994224715724908121, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
         type: 3}
@@ -115,27 +178,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3465796689374422996, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 1e133d4a6cd4a204b911c7de5556fb72,
-        type: 3}
-    - target: {fileID: 3465796689374422996, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 0.61
-      objectReference: {fileID: 0}
-    - target: {fileID: 3465796689374422996, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 0.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 3465796689374422996, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3aa1f0cee7b5b1d4bb41701093a95bce, type: 3}

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89aff831873604a44b2dc7c42070022a, type: 3}
+  m_Name: Border Setting
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 8066634581196260031, guid: f0869a200fd586146900ab4f0e488af2, type: 3}
+  - {fileID: 640238547293658721, guid: 1aa66eac633c8554aa35fce116d55131, type: 3}
+  - {fileID: 6200090151378546526, guid: f04a16a55e489614b85c50d07540e690, type: 3}
+  - {fileID: 3739675247053007701, guid: eb6f2c9044466a541adccf5db172dfe7, type: 3}

@@ -130,6 +130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 202638753}
   - component: {fileID: 202638752}
+  - component: {fileID: 202638754}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -154,7 +155,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ab4c07231e9682d428530fc8792c7e47, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -175,7 +176,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 21300000, guid: dfe81c3ace331a74abddd63d6f83afeb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b4095e38ffccdea45b65a888f134276f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -198,8 +199,178 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &202638754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202638751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 979683ce782fe0642bbc8e3a9b4bf3c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &306918052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 306918053}
+  - component: {fileID: 306918055}
+  - component: {fileID: 306918054}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &306918053
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306918052}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 979945672}
+  m_Father: {fileID: 1147071662}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &306918054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306918052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_text: 99
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 3fbde2e562e333d488bc46986fc6f4f1, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 4d8cb3022c3efad4cb897b20c30d3093, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_outlineColor:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontSize: 2.55
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 0.02
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_textAlignment: 514
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_firstOverflowCharacterIndex: -1
+  m_linkedTextComponent: {fileID: 0}
+  m_isLinkedTextComponent: 0
+  m_isTextTruncated: 0
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_ignoreRectMaskCulling: 0
+  m_ignoreCulling: 1
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_VertexBufferAutoSizeReduction: 1
+  m_firstVisibleCharacter: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_textInfo:
+    textComponent: {fileID: 306918054}
+    characterCount: 2
+    spriteCount: 0
+    spaceCount: 0
+    wordCount: 1
+    linkCount: 0
+    lineCount: 1
+    pageCount: 1
+    materialCount: 2
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_spriteAnimator: {fileID: 0}
+  m_hasFontAssetChanged: 0
+  m_subTextObjects:
+  - {fileID: 0}
+  - {fileID: 979945673}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &306918055
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306918052}
+  m_CullTransparentMesh: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,828 +522,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d094a9f0181366a4887be6895e41da1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameSetting:
-    rotationalSpeed: 45
-    respawnTime: 1.5
-    maxTouchSpeed: 2
-  _levelSetting:
-    prefab: {fileID: 8633762517422069574, guid: a39c0d6fad384d2449e9558e79fb5d31,
-      type: 3}
-    ballPrefab: {fileID: 7629634064004221656, guid: 8b46ab0ed3e65b44c83c3caceea87042,
-      type: 3}
-    trailPrefab: {fileID: 3686215552172963555, guid: 7ca6e14ade85eaa419a268f9d94a406d,
-      type: 3}
-    endPointPrefab: {fileID: 5744426674159645123, guid: 38d6a9884961b584ea03fe9399cf8749,
-      type: 3}
-    coreRadius: 3
-    colorPalletes:
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    - backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      environmentColor: {r: 0, g: 0, b: 0, a: 0}
-      platformColor: {r: 0, g: 0, b: 0, a: 0}
-      ballColor: {r: 0, g: 0, b: 0, a: 0}
-      trailColor: {r: 0, g: 0, b: 0, a: 0}
-      fxColor: {r: 0, g: 0, b: 0, a: 0}
-    segmentCount:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 8
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 3.5419617
-        value: 10.846077
-        inSlope: -0.13356902
-        outSlope: -0.13356902
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 4.5875244
-        value: 5.9210205
-        inSlope: -0.31505373
-        outSlope: -0.31505373
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 8.168237
-        value: 12.37854
-        inSlope: -0.13799347
-        outSlope: -0.13799347
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 9.523122
-        value: 4.2349854
-        inSlope: -0.0266592
-        outSlope: -0.0266592
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 13.234251
-        value: 13.981023
-        inSlope: 0.0174557
-        outSlope: 0.0174557
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 15.247497
-        value: 3.173236
-        inSlope: -2.1763573
-        outSlope: -2.1763573
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 20
-        value: 8
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    startPoinOffset:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1.75
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 20
-        value: 1.75
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  _segmentSetting:
-    prefab: {fileID: 242573835129844008, guid: 96a3830dd42836f42bf3529f32b9590b, type: 3}
-    channelCountCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 20
-        value: 3
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 45
-        value: 3
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 75
-        value: 5
-        inSlope: 0.08951729
-        outSlope: 0.08951729
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 120
-        value: 8
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    rndCriterionSeed:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0.5
-        inSlope: -0.09257773
-        outSlope: -0.09257773
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1.0223117
-        value: 0.4053567
-        inSlope: 0.15761885
-        outSlope: 0.15761885
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1.9882568
-        value: 0.79928404
-        inSlope: 0.15778622
-        outSlope: 0.15778622
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 4.148681
-        value: 0.6
-        inSlope: -0.32943788
-        outSlope: -0.32943788
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 5.031087
-        value: 0.1
-        inSlope: -0.116723254
-        outSlope: -0.116723254
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 6.7674236
-        value: 0.67852354
-        inSlope: 0.087384656
-        outSlope: 0.087384656
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 8.1481695
-        value: 0.45979002
-        inSlope: 0.08882204
-        outSlope: 0.08882204
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 8.34296
-        value: 0.5252516
-        inSlope: 0.1082783
-        outSlope: 0.1082783
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 8.936589
-        value: 0.45431036
-        inSlope: -0.20987809
-        outSlope: -0.20987809
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 9.808153
-        value: 0.19262177
-        inSlope: -0.033126533
-        outSlope: -0.033126533
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 11.059466
-        value: 0.4854274
-        inSlope: 0.07296907
-        outSlope: 0.07296907
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 12.029565
-        value: 0.4
-        inSlope: 0.16989967
-        outSlope: 0.16989967
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 13.198172
-        value: 0.9
-        inSlope: 0.038232043
-        outSlope: 0.038232043
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 14.219372
-        value: 0.5411545
-        inSlope: -0.24376747
-        outSlope: -0.24376747
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 15.020751
-        value: 0.43205544
-        inSlope: 0.03578303
-        outSlope: 0.03578303
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 16.633638
-        value: 0.7670605
-        inSlope: 0.03511004
-        outSlope: 0.03511004
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 18.344227
-        value: 0.5318801
-        inSlope: -0.0783695
-        outSlope: -0.0783695
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 20
-        value: 0.5
-        inSlope: -0.019253895
-        outSlope: -0.019253895
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    nearestPlatformRadius: 4
-    farthestPlatformRadius: 10
-    platformPlacementIntervalRadius: 1
-  _platformSetting:
-    prefabs:
-    - {fileID: 268159583435082591, guid: 1bea7c0f3ababea4f99adda253be09d9, type: 3}
-    - {fileID: 268159583435082591, guid: 38ba158a1ff8f3245aa6ca0c7a987c32, type: 3}
-    - {fileID: 268159583435082591, guid: df58d0dc2d2887243aaea8a56fadd48f, type: 3}
-    - {fileID: 268159583435082591, guid: 79df94ed56c98ee4484e94f1d3f009b0, type: 3}
-    - {fileID: 268159583435082591, guid: a2a4fdd3b6260ea469fff364298dc2b3, type: 3}
-    minLengthCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0.7
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 20
-        value: 0.1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    maxLengthCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 20
-        value: 0.3
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    customTickInterval: 0.25
-    rotateCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    onHitDisplacement: 0.05
-    onHitDisplacementDuration: 0.1
-    onHitOutboardDisplacementCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    onHitInboardDisplacementCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    onHitColorShiftFXDuration: 0
-    onHitOutboardColorShiftCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    onHitInboardColorShiftCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    onHitGlowFXDuration: 0.4
-    onHitGlowFXStartAlpha: 1
-    onHitGlowFXTargetAlpha: 0
-    onHitGlowFadeCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    onHitGlowFXStartScale: 1
-    onHitGlowFXTargetScale: 1.2
-    onHitGlowScaleCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    onHitHollowExpandFXDuration: 0
-    onHitHollowExpandFXStartAlpha: 0
-    onHitHollowExpandFXTargetAlpha: 0
-    onHitHollowExpandFadeCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    onHitHollowExpandFXStartScale: 0
-    onHitHollowExpandFXTargetScale: 0
-    onHitHollowExpandScaleCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    onHitHollowExpandColorShiftCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  _borderSetting:
-    prefabs:
-    - {fileID: 8066634581196260031, guid: f0869a200fd586146900ab4f0e488af2, type: 3}
-    - {fileID: 640238547293658721, guid: 1aa66eac633c8554aa35fce116d55131, type: 3}
-    - {fileID: 6200090151378546526, guid: f04a16a55e489614b85c50d07540e690, type: 3}
-    - {fileID: 3739675247053007701, guid: eb6f2c9044466a541adccf5db172dfe7, type: 3}
-    offset: 3
+  _mainSetting: {fileID: 11400000, guid: d8cc48e3a5e3a3f4cae489184ec25752, type: 2}
+  _thematicSetting: {fileID: 11400000, guid: 9c38949f8e656be4aa0a707869f08704, type: 2}
+  _vfxSetting: {fileID: 11400000, guid: d7d4025a8b2488e4f8574207b75ddb25, type: 2}
+  _levelSetting: {fileID: 11400000, guid: 036780b84fac6a5418b3feecd5c18976, type: 2}
+  _segmentSetting: {fileID: 11400000, guid: db7a68e57dcb61e49bf55b8b0235aab0, type: 2}
+  _platformSetting: {fileID: 11400000, guid: e37bd0bea5d6a2a47950e0c4b1221cf7, type: 2}
+  _borderSetting: {fileID: 11400000, guid: 3873117094e843a48980715f30974ec9, type: 2}
+  _orbSetting: {fileID: 11400000, guid: e4e13b583cf793643b553ce0cba20022, type: 2}
 --- !u!114 &785971252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1266,10 +623,85 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1147071662}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &979945671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 979945672}
+  - component: {fileID: 979945674}
+  - component: {fileID: 979945673}
+  m_Layer: 5
+  m_Name: TMP SubMeshUI [segoeui RTL Fixed SDF + LiberationSans SDF Atlas]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &979945672
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979945671}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 306918053}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &979945673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979945671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_spriteAsset: {fileID: 0}
+  m_material: {fileID: 0}
+  m_sharedMaterial: {fileID: 0}
+  m_isDefaultMaterial: 0
+  m_padding: 1.25
+  m_canvasRenderer: {fileID: 979945674}
+  m_TextComponent: {fileID: 306918054}
+  m_materialReferenceIndex: 1
+--- !u!222 &979945674
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979945671}
+  m_CullTransparentMesh: 0
 --- !u!1 &1073516062
 GameObject:
   m_ObjectHideFlags: 0
@@ -1334,9 +766,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1570912616
+--- !u!1 &1147071661
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1344,28 +776,97 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1570912617}
-  m_Layer: 0
-  m_Name: SceneController
+  - component: {fileID: 1147071662}
+  - component: {fileID: 1147071665}
+  - component: {fileID: 1147071664}
+  - component: {fileID: 1147071663}
+  m_Layer: 5
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1570912617
-Transform:
+--- !u!224 &1147071662
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1570912616}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.9758542, y: 1.2951672, z: -2.5967894}
+  m_GameObject: {fileID: 1147071661}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Children:
+  - {fileID: 306918053}
+  m_Father: {fileID: 873543824}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 3, y: 3}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1147071663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147071661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1147071664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147071661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+--- !u!223 &1147071665
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147071661}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1604775405
 GameObject:
   m_ObjectHideFlags: 0

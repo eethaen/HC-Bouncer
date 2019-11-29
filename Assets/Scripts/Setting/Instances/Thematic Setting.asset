@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5731ba77ae4fef24ea50827e9fdb12a1, type: 3}
+  m_Name: Thematic Setting
+  m_EditorClassIdentifier: 
+  ChapterPalletes:
+  - backgroundColor_A: {r: 0.062032744, g: 0.062032744, b: 0.3207547, a: 1}
+    backgroundColor_B: {r: 0.0627451, g: 0.0627451, b: 0.5411765, a: 1}
+    borderColor: {r: 0, g: 0.9607843, b: 1, a: 1}
+    platformColor_A: {r: 1, g: 0.80241597, b: 0, a: 1}
+    platformColor_B: {r: 1, g: 0.18748438, b: 0, a: 1}
+    ballColor: {r: 0, g: 0.9616327, b: 1, a: 1}
+    trailColor: {r: 0, g: 0.9607843, b: 1, a: 1}
+    fontColor: {r: 1, g: 1, b: 1, a: 1}
+  - backgroundColor_A: {r: 0, g: 0.1764706, b: 0, a: 1}
+    backgroundColor_B: {r: 0, g: 0.28627452, b: 0, a: 1}
+    borderColor: {r: 0, g: 0.9607843, b: 1, a: 1}
+    platformColor_A: {r: 1, g: 0, b: 0.84696007, a: 1}
+    platformColor_B: {r: 0.3365691, g: 0.33490568, b: 1, a: 1}
+    ballColor: {r: 0, g: 0.9607843, b: 1, a: 1}
+    trailColor: {r: 0, g: 0.9607843, b: 1, a: 1}
+    fontColor: {r: 1, g: 1, b: 1, a: 1}
+  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
+    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+    borderColor: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
+    ballColor: {r: 0, g: 0, b: 0, a: 0}
+    trailColor: {r: 0, g: 0, b: 0, a: 0}
+    fontColor: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
+    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+    borderColor: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
+    ballColor: {r: 0, g: 0, b: 0, a: 0}
+    trailColor: {r: 0, g: 0, b: 0, a: 0}
+    fontColor: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
+    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+    borderColor: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
+    ballColor: {r: 0, g: 0, b: 0, a: 0}
+    trailColor: {r: 0, g: 0, b: 0, a: 0}
+    fontColor: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
+    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+    borderColor: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
+    ballColor: {r: 0, g: 0, b: 0, a: 0}
+    trailColor: {r: 0, g: 0, b: 0, a: 0}
+    fontColor: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
+    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+    borderColor: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
+    ballColor: {r: 0, g: 0, b: 0, a: 0}
+    trailColor: {r: 0, g: 0, b: 0, a: 0}
+    fontColor: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
+    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+    borderColor: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
+    ballColor: {r: 0, g: 0, b: 0, a: 0}
+    trailColor: {r: 0, g: 0, b: 0, a: 0}
+    fontColor: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
+    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+    borderColor: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
+    ballColor: {r: 0, g: 0, b: 0, a: 0}
+    trailColor: {r: 0, g: 0, b: 0, a: 0}
+    fontColor: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
+    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+    borderColor: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
+    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
+    ballColor: {r: 0, g: 0, b: 0, a: 0}
+    trailColor: {r: 0, g: 0, b: 0, a: 0}
+    fontColor: {r: 0, g: 0, b: 0, a: 0}

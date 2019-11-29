@@ -22,13 +22,6 @@ public class Border : MonoBehaviour
         }
     }
 
-    [System.Serializable]
-    public class Setting
-    {
-        public Border[] prefabs;
-        public float offset;
-    }
-
     public class Factory : PlaceholderFactory<float, bool, Transform, int, Border>
     {
     }
@@ -37,13 +30,17 @@ public class Border : MonoBehaviour
 public class BorderFactory : IFactory<float, bool, Transform, int, Border>
 {
     private DiContainer _container;
-    private readonly Level.Setting _levelSetting;
-    private readonly Border.Setting _bordersetting;
+    private readonly MainSetting _mainSetting;
+    private readonly ThematicSetting _thematicSetting;
+    private readonly LevelSetting _levelSetting;
+    private readonly BorderSetting _bordersetting;
     private Border _instance;
 
-    public BorderFactory(DiContainer container, Level.Setting levelSetting,Border.Setting settings)
+    public BorderFactory(DiContainer container, MainSetting mainSetting, ThematicSetting thematicSetting, LevelSetting levelSetting, BorderSetting settings)
     {
         _container = container;
+        _mainSetting = mainSetting;
+        _thematicSetting = thematicSetting;
         _levelSetting = levelSetting;
         _bordersetting = settings;
     }
@@ -54,10 +51,10 @@ public class BorderFactory : IFactory<float, bool, Transform, int, Border>
             ? _container.InstantiatePrefabForComponent<Border>(_bordersetting.prefabs[0], parent)
             : _container.InstantiatePrefabForComponent<Border>(_bordersetting.prefabs[Random.Range(1, _bordersetting.prefabs.Length)], parent);
 
-        _instance.Init(_levelSetting.colorPalletes[level].environmentColor);
+        _instance.Init(_thematicSetting.ChapterPalletes[level / _mainSetting.levelsPerChapter].borderColor);
 
         _instance.Transform.localRotation = Quaternion.Euler(0.0f, 0.0f, theta);
-        _instance.Transform.Translate(_bordersetting.offset * Vector3.up, Space.Self);
+        _instance.Transform.Translate(_levelSetting.coreRadius * Vector3.up, Space.Self);
 
         return _instance;
     }

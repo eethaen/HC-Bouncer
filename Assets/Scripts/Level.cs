@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 public class Level : MonoBehaviour
@@ -37,31 +36,6 @@ public class Level : MonoBehaviour
 
     }
 
-    [System.Serializable]
-    public struct ColorPallete
-    {
-        public Color backgroundColor;
-        public Color environmentColor;
-        public Color platformColor;
-        public Color ballColor;
-        public Color trailColor;
-        public Color fxColor;
-    }
-
-
-    [Serializable]
-    public class Setting
-    {
-        public Level prefab;
-        public Ball ballPrefab;
-        public Trail trailPrefab;
-        public EndPoint endPointPrefab;
-        public float coreRadius;
-        public ColorPallete[] colorPalletes;
-        public AnimationCurve segmentCount;
-        public AnimationCurve startPoinOffset;
-    }
-
     public class Factory : PlaceholderFactory<int, Level> { }
 }
 
@@ -69,27 +43,34 @@ public class LevelFactory : IFactory<int, Level>
 {
     private readonly DiContainer _container;
     private readonly World _world;
+    private readonly Background _background;
+    private readonly MainSetting _mainSetting;
+    private readonly ThematicSetting _thematicSetting;
     private readonly Segment.Factory _segmentFactory;
-    private readonly Level.Setting _levelSetting;
+    private readonly LevelSetting _levelSetting;
 
     private Level _instance;
     private Vector2[] _corePositions;
 
-    public LevelFactory(DiContainer container, World world, Segment.Factory segmentFactory, Level.Setting levelSetting)
+    public LevelFactory(DiContainer container, World world, Background background, MainSetting mainSetting, ThematicSetting thematicSetting, Segment.Factory segmentFactory, LevelSetting levelSetting)
     {
         _container = container;
         _world = world;
+        _background = background;
+        _mainSetting = mainSetting;
+        _thematicSetting = thematicSetting;
         _segmentFactory = segmentFactory;
         _levelSetting = levelSetting;
     }
 
     public Level Create(int level)
     {
-        _instance = _container.InstantiatePrefabForComponent<Level>(_levelSetting.prefab, _world.Transform);
+        _background.Init(_thematicSetting.ChapterPalletes[level / _mainSetting.levelsPerChapter].backgroundColor_A, _thematicSetting.ChapterPalletes[level / _mainSetting.levelsPerChapter].backgroundColor_B);
+        _instance = _container.InstantiatePrefabForComponent<Level>(_levelSetting.levelPrefab, _world.Transform);
 
         var segmentCount = (int)_levelSetting.segmentCount.Evaluate(level);
 
-        _instance.Init(level, segmentCount, _levelSetting.colorPalletes[level].environmentColor);
+        _instance.Init(level, segmentCount, _thematicSetting.ChapterPalletes[level / _mainSetting.levelsPerChapter].borderColor);
 
         _corePositions = new Vector2[segmentCount + 1];
 

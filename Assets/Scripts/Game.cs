@@ -1,37 +1,40 @@
-﻿using System;
+﻿using DG.Tweening;
 using System.Collections;
-using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
-public class Game : IInitializable, ITickable, IFixedTickable
+public partial class Game : IInitializable, ITickable, IFixedTickable
 {
     private readonly SignalBus _signalBus;
     private readonly AsyncProcessor _asyncProcessor;
-    private readonly Setting _setting;
+    private readonly MainSetting _mainSetting;
     private readonly Level.Factory _levelFactory;
+    private readonly World _world;
 
     private Vector2 _touch;
     private Vector2 _lastTouch;
-    private float _touchTime;
-    private float _lastTouchTime;
+    private Vector2 _worldScreenPosition;
+    private float _rotationalSpeed;
     private float _touchDir;
     private float _touchSpeed;
     private float _screenWidth;
     private bool _acceptInput;
+    private int _collectedOrbsCount = 0;
+    private int _score = 0;
 
     public Level Level { get; private set; }
 
-    public Game(SignalBus signalBus, AsyncProcessor asyncProcessor,Setting setting, Level.Factory levelFactory)
+    public Game(SignalBus signalBus, AsyncProcessor asyncProcessor, MainSetting mainSetting, Level.Factory levelFactory, World world)
     {
         _signalBus = signalBus;
         _asyncProcessor = asyncProcessor;
-        _setting = setting;
+        _mainSetting = mainSetting;
         _levelFactory = levelFactory;
-
+        _world = world;
         _signalBus.Subscribe<BallHitBorder>(OnBallHitBorder);
         _signalBus.Subscribe<LevelPassed>(OnLevelPassed);
         _signalBus.Subscribe<BallHitCore>(OnBallHitCore);
+        _signalBus.Subscribe<BallHitOrb>(OnBallHitOrb);
     }
 
     public void Initialize()
@@ -42,8 +45,10 @@ public class Game : IInitializable, ITickable, IFixedTickable
 
         _signalBus.Fire<LevelLoaded>();
 
+        Input.multiTouchEnabled = false;
         _acceptInput = true;
         _screenWidth = Screen.width;
+        _worldScreenPosition = Camera.main.WorldToScreenPoint(_world.Transform.position);
     }
 
     public void Tick()
@@ -56,7 +61,6 @@ public class Game : IInitializable, ITickable, IFixedTickable
         if (Input.GetMouseButtonDown(0))
         {
             _lastTouch = Input.mousePosition;
-            _lastTouchTime = Time.time;
 
             Time.timeScale *= 0.8f;
             Time.fixedDeltaTime *= 0.8f;
@@ -64,36 +68,13 @@ public class Game : IInitializable, ITickable, IFixedTickable
         else if (Input.GetMouseButton(0))
         {
             _touch = Input.mousePosition;
-            _touchTime = Time.time;
 
-            if (_touch.x > _lastTouch.x)
-            {
-                _touchDir = 1.0f;
-            }
-            else if (_touch.x < _lastTouch.x)
-            {
-                _touchDir = -1.0f;
-            }
-            else if (_touch.y > _lastTouch.y)
-            {
-                _touchDir = 1.0f;
-            }
-            else if (_touch.y < _lastTouch.y)
-            {
-                _touchDir = -1.0f;
-            }
-            else
-            {
-                _touchDir = 0.0f;
-            }
-
-            _touchSpeed = _touchDir * Mathf.Clamp((_touch - _lastTouch).magnitude / (_touchTime - _lastTouchTime) / _screenWidth, 0.0f, _setting.maxTouchSpeed);
-            Level.Transform.Rotate(Vector3.forward, -_setting.rotationalSpeed * _touchSpeed * Time.deltaTime);
-
-            //CustomDebug.Log($"Mathf.Abs(_touchSpeed): {Mathf.Abs(_touchSpeed)}");
+            _rotationalSpeed = Vector2.SignedAngle((_lastTouch - _worldScreenPosition), (_touch - _worldScreenPosition)) / Time.unscaledDeltaTime;
+            _rotationalSpeed = Mathf.Clamp(_rotationalSpeed, -_mainSetting.maxRotationaSpeed, _mainSetting.maxRotationaSpeed);
+            Level.Transform.Rotate(Vector3.forward, _rotationalSpeed * Time.unscaledDeltaTime);
+            //Level.Transform.DORotate(_rotationalSpeed * Time.deltaTime,tim)
 
             _lastTouch = _touch;
-            _lastTouchTime = _touchTime;
         }
         else if (Input.GetMouseButtonUp(0))
         {
@@ -110,30 +91,21 @@ public class Game : IInitializable, ITickable, IFixedTickable
     {
         _acceptInput = false;
 
-        Time.timeScale *= 0.1f;
-        Time.fixedDeltaTime *= 0.1f;
-
         Level.Ball.Rigidbody.simulated = false;
-        Level.Ball.Renderer.DOFade(0.0f, _setting.respawnTime / 30.0f);
+        Level.Ball.Renderer.DOFade(0.0f, _mainSetting.respawnTime / 30.0f);
 
         Level.Trail.gameObject.SetActive(false);
 
         var segment = Utility.DetermineSegmentByPosition(Level, Level.Ball.Transform.localPosition);
-        CustomDebug.Log($"Segment determined to be {segment}");
         var angle = Vector2.SignedAngle(Vector2.up, Level.Segments[segment].Transform.up);
-        CustomDebug.Log($"Angle {angle}");
 
-        //Debug.Break();
-
-        Level.Transform.DORotate(new Vector3(0.0f, 0.0f, -angle), _setting.respawnTime, RotateMode.WorldAxisAdd)
+        Level.Transform.DORotate(new Vector3(0.0f, 0.0f, -angle), _mainSetting.respawnTime, RotateMode.WorldAxisAdd)
                       .SetEase(Ease.InOutQuad)
                       .SetUpdate(UpdateType.Normal, true)
                       .OnComplete(() =>
                       {
-                          Time.timeScale = 1.0f;
-                          Time.fixedDeltaTime = .02f;
                           Level.Ball.Rigidbody.simulated = true;
-                          Level.Ball.Renderer.DOFade(1.0f, _setting.respawnTime / 10.0f);
+                          Level.Ball.Renderer.DOFade(1.0f, _mainSetting.respawnTime / 10.0f);
                           _acceptInput = true;
                           Level.Trail.gameObject.SetActive(true);
                       });
@@ -146,6 +118,11 @@ public class Game : IInitializable, ITickable, IFixedTickable
             _asyncProcessor.StartCoroutine(RevealPlatforms(msg.segment));
             Level.Segments[msg.segment].Revealed = true;
         }
+    }
+
+    private void OnBallHitOrb()
+    {
+        _collectedOrbsCount++;
     }
 
     private IEnumerator RevealPlatforms(int segment)
@@ -162,18 +139,11 @@ public class Game : IInitializable, ITickable, IFixedTickable
         GameObject.Destroy(Level.Trail.gameObject);
         GameObject.Destroy(Level.Ball.gameObject);
         GameObject.Destroy(Level.gameObject);
+
         Level = _levelFactory.Create(Level.Index + 1);
 
         _signalBus.Fire<LevelLoaded>();
 
         CustomDebug.Log($"Level {Level.Index} loaded");
-    }
-
-    [System.Serializable]
-    public class Setting
-    {
-        public float rotationalSpeed = 45.0f;
-        public float respawnTime = 1.5f;
-        public float maxTouchSpeed = 20.0f;
     }
 }

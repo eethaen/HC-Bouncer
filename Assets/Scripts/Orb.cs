@@ -1,44 +1,75 @@
 ﻿using DG.Tweening;
+using System;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 public class Orb : MonoBehaviour
 {
-    public Transform Transform { get; private set; }
-    public Rigidbody2D Rigidbody { get; private set; }
+    [SerializeField] private SpriteRenderer _glowRenderer;
+    [SerializeField] private SpriteRenderer _hollowRenderer;
 
-    private SignalBus _signalBus;
-    private Ball _ball;
-    private Tween _tween;
+    private Game _game;
+    private OrbSetting _setting;
+
+    public Transform Transform { get; private set; }
 
     [Inject]
-    public void Construct(SignalBus signalBus, Rigidbody2D rigidbody)
+    public void Construct(Game game, OrbSetting setting)
     {
-        _signalBus = signalBus;
-        Rigidbody = rigidbody;
         Transform = transform;
+        _game = game;
+        _setting = setting;
     }
+
+    private void OnEnable()
+    {
+        Transform.DOLocalRotate(new Vector3(0.0f, 0.0f, _setting.rotationalSpeed), 1.0f)
+                     .SetEase(Ease.Linear)
+                     .SetLoops(-1, LoopType.Incremental);
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        CustomDebug.Log($"{name} Collider triggered");
-
-        _ball = collision.GetComponent<Ball>();
-
-        if (null != _ball)
+        if (collision.GetComponent<Ball>())
         {
-            if (null != _tween && _tween.IsPlaying())
-            {
-                return;
-            }
-
-            var targetPos = Transform.localPosition + Transform.InverseTransformDirection(_ball.Transform.up);
-            _tween = Transform.DOLocalMove(targetPos, 2.0f, false)
-                              .SetEase(Ease.InOutExpo);
-
-            _signalBus.Fire(new BallHitOrb() { orb = this });
+            ApplyGlowFX();
+            ApplyHollowEmergeFX();
         }
+    }
 
-        _ball = null;
+    private void ApplyHollowEmergeFX()
+    {
+        //throw new NotImplementedException();
+    }
+
+    private void ApplyGlowFX()
+    {
+        //throw new NotImplementedException();
+    }
+
+    public class Factory : PlaceholderFactory<float, float, Transform, int, Orb> { }
+}
+
+public class OrbFactory : IFactory<float, float, Transform, int, Orb>
+{
+    private readonly DiContainer _container;
+    private readonly OrbSetting _setting;
+    private Orb _instance;
+
+    public OrbFactory(DiContainer container, OrbSetting setting)
+    {
+        _container = container;
+        _setting = setting;
+    }
+
+    public Orb Create(float r, float theta, Transform parent, int level)
+    {
+        _instance = _container.InstantiatePrefabForComponent<Orb>(_setting.prefab, parent);
+        _instance.Transform.localPosition = new Vector2(r * Mathf.Cos(theta * Mathf.Deg2Rad), r * Mathf.Sin(theta * Mathf.Deg2Rad));
+        _instance.Transform.localRotation = Quaternion.Euler(0.0f, 0.0f, Random.Range(0f, 120f));
+
+        return _instance;
     }
 }

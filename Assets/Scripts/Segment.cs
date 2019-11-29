@@ -23,17 +23,6 @@ public class Segment : MonoBehaviour
         Revealed = false;
     }
 
-    [System.Serializable]
-    public class Setting
-    {
-        public Segment prefab;
-        public AnimationCurve channelCountCurve;
-        public AnimationCurve rndCriterionSeed;
-        public float nearestPlatformRadius;
-        public float farthestPlatformRadius;
-        public float platformPlacementIntervalRadius;
-    }
-
     public class Factory : PlaceholderFactory<int, Level, Segment>
     {
     }
@@ -43,20 +32,26 @@ public class SegmentFactory : IFactory<int, Level, Segment>
 {
     private readonly DiContainer _container;
     private readonly World _world;
-    private readonly Level.Setting _levelSetting;
-    private readonly Segment.Setting _segmentSetting;
+    private readonly MainSetting _mainSetting;
+    private readonly ThematicSetting _thematicSetting;
+    private readonly LevelSetting _levelSetting;
+    private readonly SegmentSetting _segmentSetting;
     private readonly Platform.Factory _platfromFactory;
     private readonly Border.Factory _borderFactory;
+    private readonly Orb.Factory _orbFactory;
     private Segment _instance;
 
-    public SegmentFactory(DiContainer container, World world, Level.Setting levelSetting, Segment.Setting segmentSettings, Platform.Factory platfromFactory, Border.Factory borderFactory)
+    public SegmentFactory(DiContainer container, World world, MainSetting mainSetting,ThematicSetting thematicSetting, LevelSetting levelSetting, SegmentSetting segmentSettings, Platform.Factory platfromFactory, Border.Factory borderFactory, Orb.Factory orbFactory)
     {
         _container = container;
         _world = world;
+        _mainSetting = mainSetting;
+        _thematicSetting = thematicSetting;
         _levelSetting = levelSetting;
         _segmentSetting = segmentSettings;
         _platfromFactory = platfromFactory;
         _borderFactory = borderFactory;
+        _orbFactory = orbFactory;
     }
 
     public Segment Create(int segment, Level level)
@@ -70,9 +65,8 @@ public class SegmentFactory : IFactory<int, Level, Segment>
 
         if (segment == 0)
         {
-            level.Ball = _container.InstantiatePrefabForComponent<Ball>(_levelSetting.ballPrefab, _world.Transform);
-            level.Ball.Transform.position += _instance.Transform.up * (_levelSetting.coreRadius + _levelSetting.startPoinOffset.Evaluate(level.Index));
-            level.Trail = _container.InstantiatePrefabForComponent<Trail>(_levelSetting.trailPrefab, _instance.Transform);
+            ConstructBall(level);
+            ConstructTrail(level);
         }
         else if (segment == level.SegmentCount - 1)
         {
@@ -80,7 +74,7 @@ public class SegmentFactory : IFactory<int, Level, Segment>
             level.EndPoint = _container.InstantiatePrefabForComponent<EndPoint>(_levelSetting.endPointPrefab, _instance.Transform);
 
             var rnd = Random.Range(0.0f, 1.0f);
-            var r = Mathf.Lerp(_segmentSetting.nearestPlatformRadius, _segmentSetting.farthestPlatformRadius, rnd);
+            var r = _levelSetting.coreRadius + Mathf.Lerp(_segmentSetting.nearestPlatformOffset, _segmentSetting.farthestPlatformOffset, rnd);
             var theta = 90.0f - span / 2.0f + Mathf.Lerp(0.25f * span, 0.75f * span, rnd);
 
             level.EndPoint.Transform.localPosition = new Vector2(r * Mathf.Cos(theta * Mathf.Deg2Rad), r * Mathf.Sin(theta * Mathf.Deg2Rad));
@@ -88,8 +82,34 @@ public class SegmentFactory : IFactory<int, Level, Segment>
 
         ConstructBorders(span, _instance, level);
         ConstructPlatforms(span, _instance, level);
+        ConstructOrbs(span, _instance, level);
 
         return _instance;
+    }
+
+    private void ConstructTrail(Level level)
+    {
+        level.Trail = _container.InstantiatePrefabForComponent<Trail>(_levelSetting.trailPrefab, _instance.Transform);
+    }
+
+    private void ConstructBall(Level level)
+    {
+        level.Ball = _container.InstantiatePrefabForComponent<Ball>(_levelSetting.ballPrefab, _world.Transform);
+        level.Ball.Transform.position += _instance.Transform.up * (_levelSetting.coreRadius + _levelSetting.spawnPoinOffset);
+    }
+
+    private void ConstructOrbs(float span, Segment instance, Level level)
+    {
+        var rnd = Random.Range(0.0f, 1.0f);
+
+        if (rnd > 0.7f)
+        {
+            var rnd2 = Random.Range(0.0f, 1.0f);
+            var theta = 90.0f - span / 2.0f + Mathf.Lerp(0.25f * span, 0.75f * span, rnd2);
+            var r = _levelSetting.coreRadius + Mathf.Lerp(0.5f * _segmentSetting.farthestPlatformOffset, 0.85f * _segmentSetting.farthestPlatformOffset, rnd2);
+            _orbFactory.Create(r, theta, instance.Transform, level.Index);
+            CustomDebug.Log("Orb Created");
+        }
     }
 
     private void ConstructBorders(float span, Segment segment, Level level)
@@ -112,7 +132,7 @@ public class SegmentFactory : IFactory<int, Level, Segment>
 
         Platform platform = null;
 
-        for (var r = _segmentSetting.nearestPlatformRadius; r <= _segmentSetting.farthestPlatformRadius; r += _segmentSetting.platformPlacementIntervalRadius)
+        for (var r = _levelSetting.coreRadius + _segmentSetting.nearestPlatformOffset; r <= _levelSetting.coreRadius + _segmentSetting.farthestPlatformOffset; r += _segmentSetting.platformPlacementInterval)
         {
             for (var channel = 0; channel < channelCount; channel++)
             {
@@ -122,8 +142,9 @@ public class SegmentFactory : IFactory<int, Level, Segment>
 
                 if (rnd > rndCrit)
                 {
-                    platform = _platfromFactory.Create(r /** Mathf.Lerp(0.9f, 1.1f, rnd)*/, theta, maxLength, _instance.Transform, level.Index);
+                    platform = _platfromFactory.Create(r /** Mathf.Lerp(0.7f, 1.0f, rnd)*/, theta, maxLength, _instance.Transform, level.Index);
                     segment.Platforms.Add(platform);
+                    platform.Init(_thematicSetting.ChapterPalletes[level.Index / _mainSetting.levelsPerChapter].platformColor_A, _thematicSetting.ChapterPalletes[level.Index / _mainSetting.levelsPerChapter].platformColor_B);
 
                     if (channelCount == 1)
                     {
