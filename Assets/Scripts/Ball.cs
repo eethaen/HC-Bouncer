@@ -6,6 +6,7 @@ public class Ball : MonoBehaviour
 {
     private SignalBus _signalBus;
     private Game _game;
+    private MainSetting _mainSetting;
     private World _world;
     private Platform _hitPlatform;
     private Border _hitBorder;
@@ -18,10 +19,11 @@ public class Ball : MonoBehaviour
     public SpriteRenderer Renderer { get; private set; }
 
     [Inject]
-    public void Construct(SignalBus signalBus, Game game, World world, Rigidbody2D rigidbody, SpriteRenderer renderer)
+    public void Construct(SignalBus signalBus, Game game, MainSetting mainSetting, World world, Rigidbody2D rigidbody, SpriteRenderer renderer)
     {
         _signalBus = signalBus;
         _game = game;
+        _mainSetting = mainSetting;
         _world = world;
         Rigidbody = rigidbody;
         Transform = transform;
@@ -30,7 +32,7 @@ public class Ball : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Rigidbody.AddForce(-5.0f * (Transform.position - _world.Transform.position).normalized);
+        Rigidbody.AddForce(-_mainSetting.gravity * (Transform.position - _world.Transform.position).normalized);
 
         _hitBorder = null;
         _hitPlatform = null;
@@ -52,12 +54,12 @@ public class Ball : MonoBehaviour
         else if (null != _hitCore)
         {
             _signalBus.Fire(new BallHitCore { segment = Utility.DetermineSegmentByPosition(_game.Level, Transform.localPosition) });
-            Rigidbody.velocity = 5.0f * Vector2.up;
+            Rigidbody.velocity = _mainSetting.VelocityAfterCollision * Vector2.up;
         }
         else if (null != _hitPlatform && collision.contacts.Any(c => c.point.y < Transform.position.y))
         {
             _hitPlatform.ShowOnBallCollisionFX();
-            Rigidbody.velocity = 5.0f * Vector2.up;
+            Rigidbody.velocity = _mainSetting.VelocityAfterCollision * Vector2.up;
         }
     }
 

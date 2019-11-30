@@ -10,4 +10,6 @@ public class MainSetting : ScriptableObject
 
     [Tooltip("Number of levels per chapter")]
     public int levelsPerChapter = 10;
+    public float gravity = 10f;
+    public float VelocityAfterCollision=7.0f;
 }

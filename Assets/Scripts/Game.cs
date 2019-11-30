@@ -13,7 +13,15 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
 
     private Vector2 _touch;
     private Vector2 _lastTouch;
-    private Vector2 _worldScreenPosition;
+    private float _touchTime;
+    private float _lastTouchTime;
+
+    //#if UNITY_ANDROID || UNITY_IOS
+
+    //    private Touch _touch;
+
+    //#endif
+
     private float _rotationalSpeed;
     private float _touchDir;
     private float _touchSpeed;
@@ -48,7 +56,6 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
         Input.multiTouchEnabled = false;
         _acceptInput = true;
         _screenWidth = Screen.width;
-        _worldScreenPosition = Camera.main.WorldToScreenPoint(_world.Transform.position);
     }
 
     public void Tick()
@@ -61,26 +68,38 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
         if (Input.GetMouseButtonDown(0))
         {
             _lastTouch = Input.mousePosition;
-
-            Time.timeScale *= 0.8f;
-            Time.fixedDeltaTime *= 0.8f;
+            _lastTouchTime = Time.unscaledTime;
         }
         else if (Input.GetMouseButton(0))
         {
             _touch = Input.mousePosition;
+            _touchTime = Time.unscaledTime;
 
-            _rotationalSpeed = Vector2.SignedAngle((_lastTouch - _worldScreenPosition), (_touch - _worldScreenPosition)) / Time.unscaledDeltaTime;
-            _rotationalSpeed = Mathf.Clamp(_rotationalSpeed, -_mainSetting.maxRotationaSpeed, _mainSetting.maxRotationaSpeed);
+            var swipeSpeed = -Mathf.Sign(_touch.x - _lastTouch.x) * (_touch - _lastTouch).magnitude / (_touchTime - _lastTouchTime);
+            _rotationalSpeed = Mathf.Lerp(_rotationalSpeed, swipeSpeed / (0.02f * _screenWidth), 40.0f * Time.unscaledDeltaTime);
             Level.Transform.Rotate(Vector3.forward, _rotationalSpeed * Time.unscaledDeltaTime);
-            //Level.Transform.DORotate(_rotationalSpeed * Time.deltaTime,tim)
 
             _lastTouch = _touch;
+            _lastTouchTime = _touchTime;
         }
-        else if (Input.GetMouseButtonUp(0))
+        else
         {
-            Time.timeScale = 1.0f;
-            Time.fixedDeltaTime = .02f;
+            _rotationalSpeed = 0.0f;
         }
+
+        //#if UNITY_ANDROID || UNITY_IOS
+
+        //        _touch = Input.touches[0];
+
+        //        if (_touch.phase == TouchPhase.Moved)
+        //        {
+        //            var rotationalSpeed = Vector2.SignedAngle((_touch.position - _touch.deltaPosition - _worldScreenPosition), (_touch.position - _worldScreenPosition)) / /*Time.unscaledDeltaTime*/_touch.deltaTime;
+        //            rotationalSpeed = Mathf.Clamp(rotationalSpeed, -_mainSetting.maxRotationaSpeed, _mainSetting.maxRotationaSpeed);
+        //            _rotationalSpeed = Mathf.Lerp(_rotationalSpeed, rotationalSpeed, 0.5f);
+        //            Level.Transform.Rotate(Vector3.forward, _rotationalSpeed * Time.unscaledDeltaTime);
+        //        }
+
+        //#endif
     }
 
     public void FixedTick()
