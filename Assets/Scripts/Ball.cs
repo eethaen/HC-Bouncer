@@ -58,6 +58,7 @@ public class Ball : MonoBehaviour
         }
         else if (null != _hitPlatform && collision.contacts.Any(c => c.point.y < Transform.position.y))
         {
+            _hitPlatform.ShiftColor();
             _hitPlatform.ShowOnBallCollisionFX();
             Rigidbody.velocity = _mainSetting.VelocityAfterCollision * Vector2.up;
         }

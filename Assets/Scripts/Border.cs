@@ -47,9 +47,7 @@ public class BorderFactory : IFactory<float, bool, Transform, int, Border>
 
     public Border Create(float theta, bool starter, Transform parent, int level)
     {
-        _instance = starter
-            ? _container.InstantiatePrefabForComponent<Border>(_bordersetting.prefabs[0], parent)
-            : _container.InstantiatePrefabForComponent<Border>(_bordersetting.prefabs[Random.Range(1, _bordersetting.prefabs.Length)], parent);
+        _instance = _container.InstantiatePrefabForComponent<Border>(_bordersetting.prefabs[0], parent);
 
         _instance.Init(_thematicSetting.ChapterPalletes[level / _mainSetting.levelsPerChapter].borderColor);
 

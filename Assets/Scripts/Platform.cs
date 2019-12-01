@@ -12,6 +12,7 @@ public class Platform : MonoBehaviour
     [SerializeField] private SpriteRenderer _hollowRenderer;
 
     private Game _game;
+    private short _colorIndex;
     private MainSetting _mainSetting;
     private ThematicSetting _thematicSetting;
     private VFXSetting _vfxSetting;
@@ -44,6 +45,9 @@ public class Platform : MonoBehaviour
     {
         _renderer.material.SetColor(_colorAID, colorA);
         _renderer.material.SetColor(_colorBID, colorB);
+
+        _colorIndex = (short)Random.Range(0, _thematicSetting.platformColorSequence.Length);
+        _renderer.color = _thematicSetting.platformColorSequence[_colorIndex];
     }
 
     private void OnEnable()
@@ -73,9 +77,15 @@ public class Platform : MonoBehaviour
     public void ShowOnBallCollisionFX()
     {
         ApplyDisplacementFX();
-        ApplyColorShiftFX();
+        //ApplyColorShiftFX();
         ApplyGlowFX();
         ApplyHollowExpandFX();
+    }
+
+    public void ShiftColor()
+    {
+        _colorIndex = (short)((_colorIndex + 1) % _thematicSetting.platformColorSequence.Length);
+        _renderer.DOColor(_thematicSetting.platformColorSequence[_colorIndex], 0.3f);
     }
 
     private void ApplyHollowExpandFX()

@@ -3,6 +3,7 @@
 [CreateAssetMenu(fileName = "Thematic Setting", menuName = "Setting/Thematic", order = 1)]
 public class ThematicSetting : ScriptableObject
 {
+    public Color[] platformColorSequence;
     public ColorPallete[] ChapterPalletes;
 
     [System.Serializable]

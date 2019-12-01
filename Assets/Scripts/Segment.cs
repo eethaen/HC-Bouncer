@@ -82,7 +82,7 @@ public class SegmentFactory : IFactory<int, Level, Segment>
 
         ConstructBorders(span, _instance, level);
         ConstructPlatforms(span, _instance, level);
-        ConstructOrbs(span, _instance, level);
+        //ConstructOrbs(span, _instance, level);
 
         return _instance;
     }
