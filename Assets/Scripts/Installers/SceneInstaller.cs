@@ -9,10 +9,9 @@ public class SceneInstaller : MonoInstaller
     [SerializeField] VFXSetting _vfxSetting;
 
     [SerializeField] LevelSetting _levelSetting;
-    [SerializeField] SegmentSetting _segmentSetting;
     [SerializeField] PlatformSetting _platformSetting;
     [SerializeField] BorderSetting _borderSetting;
-    [SerializeField] OrbSetting _orbSetting;
+    [SerializeField] ObstacleSetting _obstacleSetting;
 
     public override void InstallBindings()
     {
@@ -37,16 +36,14 @@ public class SceneInstaller : MonoInstaller
         Container.BindInstance(_thematicSetting).AsSingle();
         Container.BindInstance(_vfxSetting).AsSingle();
         Container.BindInstance(_levelSetting).AsSingle();
-        Container.BindInstance(_segmentSetting).AsSingle();
         Container.BindInstance(_platformSetting).AsSingle();
         Container.BindInstance(_borderSetting).AsSingle();
-        Container.BindInstance(_orbSetting).AsSingle();
+        Container.BindInstance(_obstacleSetting).AsSingle();
 
         Container.BindFactory<int, Level, Level.Factory>().FromFactory<LevelFactory>();
-        Container.BindFactory<int, Level, Segment, Segment.Factory>().FromFactory<SegmentFactory>();
-        Container.BindFactory<float, bool, Transform, int, Border, Border.Factory>().FromFactory<BorderFactory>();
-        Container.BindFactory<float, float, float, Transform, int, Platform, Platform.Factory>().FromFactory<PlatformFactory>();
-        Container.BindFactory<float, float, Transform, int, Orb, Orb.Factory>().FromFactory<OrbFactory>();
+        Container.BindFactory<float, bool, Level, Border, Border.Factory>().FromFactory<BorderFactory>();
+        Container.BindFactory<Platform.State, Level, Platform, Platform.Factory>().FromFactory<PlatformFactory>();
+        Container.BindFactory<Obstacle.State, Level, Obstacle, Obstacle.Factory>().FromFactory<ObstacleFactory>();
 
         //Container.Bind<State>().FromComponentsInChildren(false, null, true);
 
@@ -57,10 +54,9 @@ public class SceneInstaller : MonoInstaller
         //         .FromComponentInNewPrefab(prefab/* Container.Resolve<Player>().ProjectilePrefab */)
         //         .UnderTransformGroup("Projectiles");
 
-        Container.DeclareSignal<BallHitOrb>();
         Container.DeclareSignal<BallHitBorder>();
+        Container.DeclareSignal<BallHitObstacle>();
         Container.DeclareSignal<BallHitCore>();
         Container.DeclareSignal<LevelLoaded>();
-        Container.DeclareSignal<LevelPassed>();
     }
 }

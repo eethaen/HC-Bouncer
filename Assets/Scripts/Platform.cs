@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 public class Platform : MonoBehaviour
 {
@@ -11,25 +12,30 @@ public class Platform : MonoBehaviour
     [SerializeField] private SpriteRenderer _glowRenderer;
     [SerializeField] private SpriteRenderer _hollowRenderer;
 
+    private SignalBus _signalBus;
     private Game _game;
-    private short _colorIndex;
+    private short _colorDuoIndex;
     private MainSetting _mainSetting;
     private ThematicSetting _thematicSetting;
     private VFXSetting _vfxSetting;
     private PlatformSetting _platformSetting;
-    private SpriteRenderer _renderer;
+    private Level _level;
 
     private int _colorAID;
     private int _colorBID;
-    private float _angle;
-    private float _radius;
 
     public Transform Transform { get; private set; }
+    public bool ColorChanger { get; private set; }
+    public bool Transient { get; private set; }
+
+    private SpriteRenderer _renderer;
 
     [Inject]
-    public void Construct(Game game, MainSetting mainSetting, ThematicSetting thematicSetting, VFXSetting vfxSetting, PlatformSetting platformSetting, SpriteRenderer renderer)
+    public void Construct(SignalBus signalBus, Game game, MainSetting mainSetting, ThematicSetting thematicSetting, VFXSetting vfxSetting, PlatformSetting platformSetting, SpriteRenderer renderer)
     {
         Transform = transform;
+
+        _signalBus = signalBus;
         _game = game;
         _mainSetting = mainSetting;
         _thematicSetting = thematicSetting;
@@ -39,15 +45,29 @@ public class Platform : MonoBehaviour
 
         _colorAID = Shader.PropertyToID("_ColorA");
         _colorBID = Shader.PropertyToID("_ColorB");
+
+        _signalBus.Subscribe<LevelLoaded>(OnLevelLoaded);
     }
 
-    public void Init(Color colorA, Color colorB)
+    public void Init(State state, Level level)
     {
-        _renderer.material.SetColor(_colorAID, colorA);
-        _renderer.material.SetColor(_colorBID, colorB);
+        _level = level;
 
-        _colorIndex = (short)Random.Range(0, _thematicSetting.platformColorSequence.Length);
-        _renderer.color = _thematicSetting.platformColorSequence[_colorIndex];
+        Transient = state.transient;
+        ColorChanger = state.colorChanger;
+
+        if (ColorChanger)
+        {
+            _colorDuoIndex = (short)Random.Range(0, _thematicSetting.platformColorSequence.Length);
+
+            _renderer.material.SetColor(_colorAID, _thematicSetting.platformColorSequence[_colorDuoIndex].colorA);
+            _renderer.material.SetColor(_colorBID, _thematicSetting.platformColorSequence[_colorDuoIndex].colorB);
+        }
+        else
+        {
+            _renderer.material.SetColor(_colorAID, _thematicSetting.ChapterPalletes[_level.Index / _mainSetting.levelsPerChapter].platformColor.colorA);
+            _renderer.material.SetColor(_colorBID, _thematicSetting.ChapterPalletes[_level.Index / _mainSetting.levelsPerChapter].platformColor.colorA);
+        }
     }
 
     private void OnEnable()
@@ -84,15 +104,32 @@ public class Platform : MonoBehaviour
 
     public void ShiftColor()
     {
-        _colorIndex = (short)((_colorIndex + 1) % _thematicSetting.platformColorSequence.Length);
-        _renderer.DOColor(_thematicSetting.platformColorSequence[_colorIndex], 0.3f);
+        if (!ColorChanger)
+        {
+            return;
+        }
+
+        _colorDuoIndex = (short)((_colorDuoIndex + 1) % _thematicSetting.platformColorSequence.Length);
+
+        _renderer.material.DOColor(_thematicSetting.platformColorSequence[_colorDuoIndex].colorA, _colorAID, 0.3f)
+                         .OnComplete(() =>
+                         {
+                             _game.AssessLevel();
+
+                             if (Transient)
+                             {
+                                 Invoke("ShiftColor", _platformSetting.TransientColorChangeInterval);
+                             }
+                         });
+
+        _renderer.material.DOColor(_thematicSetting.platformColorSequence[_colorDuoIndex].colorB, _colorBID, 0.3f);
     }
 
     private void ApplyHollowExpandFX()
     {
         _hollowRenderer.gameObject.SetActive(true);
 
-        _hollowRenderer.color = _thematicSetting.ChapterPalletes[_game.Level.Index / _mainSetting.levelsPerChapter].ballColor;
+        _hollowRenderer.color = _thematicSetting.ChapterPalletes[_level.Index / _mainSetting.levelsPerChapter].ballColor;
 
         _hollowRenderer.DOFade(_vfxSetting.OnBallHitPlatformSetting.onHitHollowExpandFXTargetAlpha, _vfxSetting.OnBallHitPlatformSetting.onHitHollowExpandFXDuration)
                        .From(_vfxSetting.OnBallHitPlatformSetting.onHitHollowExpandFXStartAlpha)
@@ -107,6 +144,16 @@ public class Platform : MonoBehaviour
                                  .From(_vfxSetting.OnBallHitPlatformSetting.onHitHollowExpandFXStartScale * new Vector2(1.0f, 1.0f))
                                  .SetEase(_vfxSetting.OnBallHitPlatformSetting.onHitHollowExpandScaleCurve)
                                  .SetUpdate(UpdateType.Normal, true);
+    }
+
+    public Color GetColorA()
+    {
+        return _renderer.material.GetColor(_colorAID);
+    }
+
+    public Color GetColorB()
+    {
+        return _renderer.material.GetColor(_colorBID);
     }
 
     private void ApplyGlowFX()
@@ -132,7 +179,7 @@ public class Platform : MonoBehaviour
     {
         _whiteRenderer.gameObject.SetActive(true);
 
-        _whiteRenderer.DOColor(_thematicSetting.ChapterPalletes[_game.Level.Index / _mainSetting.levelsPerChapter].ballColor, _vfxSetting.OnBallHitPlatformSetting.onHitColorShiftFXDuration)
+        _whiteRenderer.DOColor(_thematicSetting.ChapterPalletes[_level.Index / _mainSetting.levelsPerChapter].ballColor, _vfxSetting.OnBallHitPlatformSetting.onHitColorShiftFXDuration)
                       .From(Color.white)
                       .SetEase(_vfxSetting.OnBallHitPlatformSetting.onHitColorShiftCurve)
                       .SetUpdate(UpdateType.Normal, true)
@@ -161,41 +208,55 @@ public class Platform : MonoBehaviour
                  });
     }
 
-    public class Factory : PlaceholderFactory<float, float, float, Transform, int, Platform>
+    private void OnLevelLoaded(LevelLoaded msg)
+    {
+        _level = msg.level;
+    }
+
+    public struct State
+    {
+        public float radius;
+        public float theta;
+        public bool colorChanger;
+        public bool transient;
+    }
+
+    public class Factory : PlaceholderFactory<Platform.State, Level, Platform>
     {
     }
 }
 
-public class PlatformFactory : IFactory<float, float, float, Transform, int, Platform>
+public class PlatformFactory : IFactory<Platform.State, Level, Platform>
 {
     private readonly DiContainer _container;
+    private readonly LevelSetting _levelSetting;
     private readonly PlatformSetting _platfromSetting;
     private Platform _instance;
 
-    public PlatformFactory(DiContainer container, PlatformSetting platformSetting)
+    public PlatformFactory(DiContainer container, LevelSetting levelSetting, PlatformSetting platformSetting)
     {
         _container = container;
+        _levelSetting = levelSetting;
         _platfromSetting = platformSetting;
     }
 
-    public Platform Create(float r, float theta, float maxLength, Transform parent, int level)
+    public Platform Create(Platform.State state, Level level)
     {
-        CustomDebug.Assert(maxLength > _platfromSetting.minLengthCurve.Evaluate(level));
-        CustomDebug.Assert(_platfromSetting.maxLengthCurve.Evaluate(level) > _platfromSetting.minLengthCurve.Evaluate(level));
+        CustomDebug.Assert(_platfromSetting.maxLengthCurve.Evaluate(level.Index) > _platfromSetting.minLengthCurve.Evaluate(level.Index));
 
         var rnd = Random.Range(0.0f, 1.0f);
-        var length = Mathf.Lerp(_platfromSetting.minLengthCurve.Evaluate(level), Mathf.Min(_platfromSetting.maxLengthCurve.Evaluate(level), maxLength), rnd);
+        var maxLength = 0.8f * state.radius * level.ChannelSpan * Mathf.Deg2Rad;
+        var length = Mathf.Lerp(_platfromSetting.minLengthCurve.Evaluate(level.Index), Mathf.Min(_platfromSetting.maxLengthCurve.Evaluate(level.Index), maxLength), rnd);
+        state.theta += (rnd * 2.0f - 1.0f) * (maxLength - length) / 2.0f / state.radius * Mathf.Rad2Deg;
 
         var prefabIndex = (int)((1.0f - length) * 5.0f);
 
         CustomDebug.Assert(prefabIndex < _platfromSetting.prefabs.Length);
 
-        _instance = _container.InstantiatePrefabForComponent<Platform>(_platfromSetting.prefabs[prefabIndex], parent);
-
-        theta += (rnd > 0.5 ? 1.0f : -1.0f) * rnd * (maxLength - length) / 2.0f / r * Mathf.Rad2Deg;
-
-        _instance.Transform.localPosition = new Vector2(r * Mathf.Cos(theta * Mathf.Deg2Rad), r * Mathf.Sin(theta * Mathf.Deg2Rad));
-        //_instance.Transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        _instance = _container.InstantiatePrefabForComponent<Platform>(_platfromSetting.prefabs[prefabIndex], level.Transform);
+        _instance.Init(state, level);
+        level.Platforms.Add(_instance);
+        _instance.Transform.localPosition = new Vector2(state.radius * Mathf.Cos(state.theta * Mathf.Deg2Rad), state.radius * Mathf.Sin(state.theta * Mathf.Deg2Rad));
 
         return _instance;
     }

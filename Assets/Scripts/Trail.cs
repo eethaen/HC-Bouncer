@@ -24,6 +24,7 @@ public class Trail : MonoBehaviour
     private LineRenderer _renderer;    //  internal pointer to LineRenderer Component
     private Vector3 _lastPosition;     // internal log of last trail point... could also use myLine.GetPosition(myLine.numPositions)
     private Vector3[] _tempArray;
+    private Vector3 _position;
 
     [Inject]
     public void Construct(Game game, SignalBus signalBus, World world,LineRenderer renderer)
@@ -33,8 +34,6 @@ public class Trail : MonoBehaviour
         _world = world;
         _renderer = renderer;
         _transform = transform;
-
-        _signalBus.Subscribe<LevelLoaded>(OnLevelLoaded);
     }
 
     void Start()
@@ -47,6 +46,10 @@ public class Trail : MonoBehaviour
 
     private void OnEnable()
     {
+        _objToFollow = _game.Ball.Transform;
+        _parent = _world.Transform;
+        _transform.SetParent(_parent);
+
         Reset();
     }
 
@@ -106,31 +109,13 @@ public class Trail : MonoBehaviour
     void Update()
     {
         // Get the current position of the object in local space
-        Vector3 position = _parent.InverseTransformPoint(_objToFollow.position);
+         _position = _parent.InverseTransformPoint(_objToFollow.position);
        
         // Check to see if object has moved far enough
-        if (Vector3.Distance(position, _lastPosition) > threshod)
+        if (Vector3.Distance(_position, _lastPosition) > threshod)
         {
             // ..and add the point to the trail if so
-            AddPoint(position);
+            AddPoint(_position);
         }
-    }
-
-    private void OnLevelLoaded()
-    {
-        if (null == _transform)
-        {
-            return;
-        }
-
-        #region Asserts
-        CustomDebug.Assert(null != _game.Level);
-        CustomDebug.Assert(null != _game.Level.Ball);
-        CustomDebug.Assert(null != _game.Level.Transform);
-        #endregion
-
-        _objToFollow = _game.Level.Ball.Transform;
-        _parent = _game.Level.Transform;
-        _transform.SetParent(_parent);
     }
 }

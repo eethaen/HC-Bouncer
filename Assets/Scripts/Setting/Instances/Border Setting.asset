@@ -12,8 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89aff831873604a44b2dc7c42070022a, type: 3}
   m_Name: Border Setting
   m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 8066634581196260031, guid: f0869a200fd586146900ab4f0e488af2, type: 3}
-  - {fileID: 640238547293658721, guid: 1aa66eac633c8554aa35fce116d55131, type: 3}
-  - {fileID: 6200090151378546526, guid: f04a16a55e489614b85c50d07540e690, type: 3}
-  - {fileID: 3739675247053007701, guid: eb6f2c9044466a541adccf5db172dfe7, type: 3}
+  prefab: {fileID: 6834490614530778262, guid: 8b5f43ade94847443a4bdc8ffc8e49b6, type: 3}

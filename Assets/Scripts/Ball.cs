@@ -10,9 +10,8 @@ public class Ball : MonoBehaviour
     private World _world;
     private Platform _hitPlatform;
     private Border _hitBorder;
-    private Level _hitCore;
-    private EndPoint _hitEndPoint;
-    private Orb _hitOrb;
+    private World _hitWorld;
+    private Obstacle _hitObstacle;
 
     public Transform Transform { get; private set; }
     public Rigidbody2D Rigidbody { get; private set; }
@@ -32,28 +31,32 @@ public class Ball : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Rigidbody.AddForce(-_mainSetting.gravity * (Transform.position - _world.Transform.position).normalized);
+        Rigidbody.AddForce(-_mainSetting.gravity * Rigidbody.mass * (Transform.position - _world.Transform.position).normalized);
 
         _hitBorder = null;
         _hitPlatform = null;
-        _hitCore = null;
-        _hitEndPoint = null;
-        _hitOrb = null;
+        _hitWorld = null;
+        _hitObstacle = null;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         _hitPlatform = collision.gameObject.GetComponent<Platform>();
         _hitBorder = collision.gameObject.GetComponentInParent<Border>();
-        _hitCore = collision.gameObject.GetComponent<Level>();
+        _hitWorld = collision.gameObject.GetComponent<World>();
+        _hitObstacle = collision.gameObject.GetComponent<Obstacle>();
 
         if (null != _hitBorder)
         {
             _signalBus.Fire<BallHitBorder>();
         }
-        else if (null != _hitCore)
+        else if (null != _hitObstacle)
         {
-            _signalBus.Fire(new BallHitCore { segment = Utility.DetermineSegmentByPosition(_game.Level, Transform.localPosition) });
+            _signalBus.Fire<BallHitObstacle>();
+        }
+        else if (null != _hitWorld)
+        {
+            _signalBus.Fire<BallHitCore>();
             Rigidbody.velocity = _mainSetting.VelocityAfterCollision * Vector2.up;
         }
         else if (null != _hitPlatform && collision.contacts.Any(c => c.point.y < Transform.position.y))
@@ -61,22 +64,6 @@ public class Ball : MonoBehaviour
             _hitPlatform.ShiftColor();
             _hitPlatform.ShowOnBallCollisionFX();
             Rigidbody.velocity = _mainSetting.VelocityAfterCollision * Vector2.up;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        _hitEndPoint = collision.GetComponent<EndPoint>();
-        _hitOrb = collision.GetComponent<Orb>();
-
-        if (null != _hitEndPoint)
-        {
-            CustomDebug.Log($"Level passed");
-            _signalBus.Fire<LevelPassed>();
-        }
-        else if (null != _hitOrb)
-        {
-            _signalBus.Fire<BallHitOrb>();
         }
     }
 }

@@ -12,84 +12,111 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5731ba77ae4fef24ea50827e9fdb12a1, type: 3}
   m_Name: Thematic Setting
   m_EditorClassIdentifier: 
+  platformColorSequence:
+  - colorA: {r: 1, g: 0, b: 0, a: 1}
+    colorB: {r: 1, g: 0.34117648, b: 0, a: 1}
+  - colorA: {r: 0, g: 0.13428664, b: 1, a: 1}
+    colorB: {r: 0, g: 0.48235294, b: 1, a: 1}
+  - colorA: {r: 0, g: 0.4627451, b: 0.08543229, a: 1}
+    colorB: {r: 0, g: 0.83137256, b: 0.08627451, a: 1}
   ChapterPalletes:
-  - backgroundColor_A: {r: 0.062032744, g: 0.062032744, b: 0.3207547, a: 1}
-    backgroundColor_B: {r: 0.0627451, g: 0.0627451, b: 0.5411765, a: 1}
+  - backgroundColor:
+      colorA: {r: 0, g: 0.013520718, b: 1, a: 1}
+      colorB: {r: 0, g: 0.022641486, b: 0.33962262, a: 1}
+    platformColor:
+      colorA: {r: 0, g: 0, b: 0, a: 1}
+      colorB: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 1}
     borderColor: {r: 0, g: 0.9607843, b: 1, a: 1}
-    platformColor_A: {r: 1, g: 0.80241597, b: 0, a: 1}
-    platformColor_B: {r: 1, g: 0.18748438, b: 0, a: 1}
     ballColor: {r: 0, g: 0.9616327, b: 1, a: 1}
     trailColor: {r: 0, g: 0.9607843, b: 1, a: 1}
     fontColor: {r: 1, g: 1, b: 1, a: 1}
-  - backgroundColor_A: {r: 0, g: 0.1764706, b: 0, a: 1}
-    backgroundColor_B: {r: 0, g: 0.28627452, b: 0, a: 1}
+  - backgroundColor:
+      colorA: {r: 0.42396927, g: 0, b: 1, a: 1}
+      colorB: {r: 0.6091032, g: 0.25490195, b: 0.8, a: 1}
+    platformColor:
+      colorA: {r: 0, g: 0, b: 0, a: 1}
+      colorB: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
     borderColor: {r: 0, g: 0.9607843, b: 1, a: 1}
-    platformColor_A: {r: 1, g: 0, b: 0.84696007, a: 1}
-    platformColor_B: {r: 0.3365691, g: 0.33490568, b: 1, a: 1}
     ballColor: {r: 0, g: 0.9607843, b: 1, a: 1}
     trailColor: {r: 0, g: 0.9607843, b: 1, a: 1}
     fontColor: {r: 1, g: 1, b: 1, a: 1}
-  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
-    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor:
+      colorA: {r: 0, g: 0.18470699, b: 0.4056604, a: 1}
+      colorB: {r: 0.008009953, g: 0.26556143, b: 0.5660378, a: 1}
+    platformColor:
+      colorA: {r: 0, g: 0, b: 0, a: 1}
+      colorB: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
+    borderColor: {r: 1, g: 0.17079794, b: 0, a: 1}
+    ballColor: {r: 1, g: 0.3835763, b: 0.3254717, a: 1}
+    trailColor: {r: 1, g: 0.17254902, b: 0, a: 1}
+    fontColor: {r: 1, g: 1, b: 1, a: 1}
+  - backgroundColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
+    platformColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
-    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
+    platformColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
-    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
+    platformColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
-    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
+    platformColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
-    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
+    platformColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
-    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
+    platformColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
-    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
+  - backgroundColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
+    platformColor:
+      colorA: {r: 0, g: 0, b: 0, a: 0}
+      colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
-    ballColor: {r: 0, g: 0, b: 0, a: 0}
-    trailColor: {r: 0, g: 0, b: 0, a: 0}
-    fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor_A: {r: 0, g: 0, b: 0, a: 0}
-    backgroundColor_B: {r: 0, g: 0, b: 0, a: 0}
-    borderColor: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_A: {r: 0, g: 0, b: 0, a: 0}
-    platformColor_B: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}

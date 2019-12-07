@@ -1,39 +1,36 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 public class Level : MonoBehaviour
 {
     public Transform Transform { get; private set; }
-    public LineRenderer LineRenderer { get; private set; }
-    public EdgeCollider2D EdgeCollider { get; private set; }
+
     public int Index { get; private set; }
-    public int SegmentCount { get; private set; }
-    public float SegmentSpan { get; private set; }
-    public Segment[] Segments { get; set; }
-    public Ball Ball { get; set; }
-    public EndPoint EndPoint { get; set; }
-    public Trail Trail { get; set; }
+    public float Span { get; private set; }
+    public int ChannelCount { get; private set; }
+    public float ChannelSpan { get; private set; }
+    public List<Platform> Platforms { get; set; }
+    public List<Obstacle> Obstacles { get; set; }
+    public bool Revealed { get; set; }
 
     [Inject]
-    public void Construct(LineRenderer lineRenderer, EdgeCollider2D edgeCollider)
+    public void Construct()
     {
-        LineRenderer = lineRenderer;
-        EdgeCollider = edgeCollider;
         Transform = transform;
+
+        Platforms = new List<Platform>();
+        Obstacles = new List<Obstacle>();
     }
 
-    internal void Init(int index, int segmentCount, Color color)
+    internal void Init(int index, float span, int channelCount)
     {
         Index = index;
-        SegmentCount = segmentCount;
-        SegmentSpan = 360.0f / segmentCount;
-
-        Segments = new Segment[segmentCount];
-
-        LineRenderer.positionCount = segmentCount + 1;
-        LineRenderer.useWorldSpace = false;
-        LineRenderer.startColor = LineRenderer.endColor = color;
-
+        Span = span;
+        ChannelCount = channelCount;
+        ChannelSpan = span / channelCount;
     }
 
     public class Factory : PlaceholderFactory<int, Level> { }
@@ -43,53 +40,156 @@ public class LevelFactory : IFactory<int, Level>
 {
     private readonly DiContainer _container;
     private readonly World _world;
-    private readonly Background _background;
+    private readonly Platform.Factory _platformFactory;
+    private readonly Obstacle.Factory _obstacleFactory;
+    private readonly Border.Factory _borderFactory;
     private readonly MainSetting _mainSetting;
     private readonly ThematicSetting _thematicSetting;
-    private readonly Segment.Factory _segmentFactory;
     private readonly LevelSetting _levelSetting;
-
-    private Level _instance;
-    private Vector2[] _corePositions;
-
-    public LevelFactory(DiContainer container, World world, Background background, MainSetting mainSetting, ThematicSetting thematicSetting, Segment.Factory segmentFactory, LevelSetting levelSetting)
+    public LevelFactory(DiContainer container, World world, Platform.Factory platformFactory, Obstacle.Factory obstacleFactory, Border.Factory borderFactory, MainSetting mainSetting, ThematicSetting thematicSetting, LevelSetting levelSetting)
     {
         _container = container;
         _world = world;
-        _background = background;
+        _platformFactory = platformFactory;
+        _obstacleFactory = obstacleFactory;
+        _borderFactory = borderFactory;
         _mainSetting = mainSetting;
         _thematicSetting = thematicSetting;
-        _segmentFactory = segmentFactory;
         _levelSetting = levelSetting;
     }
 
-    public Level Create(int level)
+    public Level Create(int index)
     {
-        _background.Init(_thematicSetting.ChapterPalletes[level / _mainSetting.levelsPerChapter].backgroundColor_A, _thematicSetting.ChapterPalletes[level / _mainSetting.levelsPerChapter].backgroundColor_B);
-        _instance = _container.InstantiatePrefabForComponent<Level>(_levelSetting.levelPrefab, _world.Transform);
+        var instance = _container.InstantiatePrefabForComponent<Level>(_levelSetting.levelPrefab, _world.Transform);
+        instance.Init(index, 360.0f / _mainSetting.segmentCount, (int)_levelSetting.channelCountCurve.Evaluate(index));
 
-        var segmentCount = (int)_levelSetting.segmentCount.Evaluate(level);
+        instance.Transform.localRotation = Quaternion.Euler(0.0f, 0.0f, instance.Span * instance.Index);
 
-        _instance.Init(level, segmentCount, _thematicSetting.ChapterPalletes[level / _mainSetting.levelsPerChapter].borderColor);
+        ConstructBorders(instance);
+        ConstructPlatformsAndObstacles(instance);
+        //ConstructObstacles(instance);
 
-        _corePositions = new Vector2[segmentCount + 1];
+        CustomDebug.Log($"Creating level {instance} with span {instance.Span}, and {instance.ChannelCount} channels");
 
-        var theta = 90.0f - _instance.SegmentSpan / 2.0f;
+        return instance;
+    }
 
-        for (var i = 0; i < _corePositions.Length; i++)
+    private void ConstructBorders(Level level)
+    {
+        _borderFactory.Create(90.0f - level.Span / 2.0f, level.Index == 0, level);
+        _borderFactory.Create(90.0f + level.Span / 2.0f, level.Index == 0, level);
+    }
+
+    private void ConstructPlatformsAndObstacles(Level level)
+    {
+        var channelSpan = level.ChannelSpan;
+        var platformRndCrit = 0.0f;
+        var obstacleRndCrit = 0.5f;
+        var transientRndCrit = 0.9f;
+        var colorChangeRndCrit = 0.5f;
+
+        for (var r = _mainSetting.coreRadius + _levelSetting.nearestPlatformOffset; r <= _mainSetting.coreRadius + _levelSetting.farthestPlatformOffset.Evaluate(level.Index); r += _levelSetting.platformPlacementInterval.Evaluate(level.Index))
         {
-            _corePositions[i] = new Vector2(_levelSetting.coreRadius * Mathf.Cos(theta * Mathf.Deg2Rad), _levelSetting.coreRadius * Mathf.Sin(theta * Mathf.Deg2Rad));
-            _instance.LineRenderer.SetPosition(i, _corePositions[i]);
-            theta += _instance.SegmentSpan;
+            platformRndCrit = Random.Range(0.0f, 1.0f);
+
+            if (level.ChannelCount == 1)
+            {
+                _platformFactory.Create(ConstructPlatformState(r, 90.0f, IsTransient(level, transientRndCrit), IsColorChanger(level, colorChangeRndCrit)), level);
+
+                if (ShouldTerminateProceduralGeneration(level))
+                {
+                    return;
+                }
+            }
+            else
+            {
+                for (var channel = 0; channel < level.ChannelCount; channel++)
+                {
+                    var theta = 90.0f - level.Span / 2.0f + (2.0f * (channel + 1) - 1) * channelSpan / 2.0f;
+
+                    if (Random.Range(0.0f, 1.0f) > platformRndCrit)
+                    {
+                        _platformFactory.Create(ConstructPlatformState(r, theta, IsTransient(level, transientRndCrit), IsColorChanger(level, colorChangeRndCrit)), level);
+                        platformRndCrit = Mathf.Clamp01(platformRndCrit + 1.0f / (level.ChannelCount - 1) * Mathf.Lerp(1.5f, 0.5f, _levelSetting.platformAbundance.Evaluate(level.Index)));
+                    }
+                    else
+                    {
+                        if (Mathf.Abs(theta - 90.0f) > 5.0f && Random.Range(0.0f, 1.0f) > obstacleRndCrit)
+                        {
+                            _obstacleFactory.Create(ConstructObstacleState(r, theta), level);
+                            obstacleRndCrit = Mathf.Clamp01(obstacleRndCrit + 0.3f * Mathf.Lerp(1.5f, 0.5f, _levelSetting.obstacleAbundance.Evaluate(level.Index)));
+                        }
+                        else
+                        {
+                            obstacleRndCrit = Mathf.Clamp01(obstacleRndCrit - 3.0f * Mathf.Lerp(0.5f, 1.5f, _levelSetting.obstacleAbundance.Evaluate(level.Index)));
+                        }
+
+                        platformRndCrit = Mathf.Clamp01(platformRndCrit - 1.0f / (level.ChannelCount - 1));
+                    }
+
+                    if (ShouldTerminateProceduralGeneration(level))
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    private bool IsTransient(Level level, float rndCrit)
+    {
+        var transient = Random.Range(0.0f, 1.0f) > rndCrit;
+
+        if (level.Platforms.Count(p => p.Transient) > _levelSetting.MaxTransientPlatforms)
+        {
+            transient = false;
         }
 
-        _instance.EdgeCollider.points = _corePositions;
+        return transient;
+    }
 
-        for (var i = 0; i < segmentCount; i++)
+    private bool IsColorChanger(Level level, float rndCrit)
+    {
+        var colorChanger = Random.Range(0.0f, 1.0f) > rndCrit;
+
+        if (level.Platforms.Count < 3)
         {
-            _instance.Segments[i] = _segmentFactory.Create(i, _instance);
+            colorChanger = true;
         }
 
-        return _instance;
+        if (level.Platforms.Count(p => p.ColorChanger) > _levelSetting.MaxColorChangerPlatforms)
+        {
+            colorChanger = false;
+        }
+
+        return colorChanger;
+    }
+
+    private bool ShouldTerminateProceduralGeneration(Level level)
+    {
+        return level.Platforms.Count(p => !p.ColorChanger) >= _levelSetting.MaxSolidPlatforms;
+    }
+
+    private static Platform.State ConstructPlatformState(float r, float theta, bool transient, bool colorChanger)
+    {
+        Platform.State platformState;
+
+        platformState.radius = r;
+        platformState.theta = theta;
+        platformState.transient = transient;
+        platformState.colorChanger = colorChanger;
+
+        return platformState;
+    }
+
+    private static Obstacle.State ConstructObstacleState(float r, float theta)
+    {
+        Obstacle.State obstacleState;
+
+        obstacleState.radius = r;
+        obstacleState.theta = theta;
+
+        return obstacleState;
     }
 }
+

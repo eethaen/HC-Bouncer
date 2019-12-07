@@ -20,4 +20,5 @@ public class PlatformSetting : ScriptableObject
     [Header("Rotate Upward Properties")]
     [Space]
     public AnimationCurve rotateCurve;
+    public float TransientColorChangeInterval=5.0f;
 }

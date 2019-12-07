@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe34506c3842519428e0a39545f59435, type: 3}
-  m_Name: Orb Setting
+  m_Script: {fileID: 11500000, guid: e5fd9d4002bd06540b21213a57d7e03a, type: 3}
+  m_Name: Obstacle Setting
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7988294296553058065, guid: d00715cf148b7504896bcf312da87166, type: 3}
-  rotationalSpeed: 45
+  prefab: {fileID: 3804166949749762729, guid: b6cffa91121eb2c4998b2fe6d75e0de3, type: 3}
