@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 using Zenject;
+using DG.Tweening;
 
 public class Ball : MonoBehaviour
 {
@@ -12,21 +13,25 @@ public class Ball : MonoBehaviour
     private Border _hitBorder;
     private World _hitWorld;
     private Obstacle _hitObstacle;
+    private ThematicSetting _thematicSetting;
 
     public Transform Transform { get; private set; }
     public Rigidbody2D Rigidbody { get; private set; }
     public SpriteRenderer Renderer { get; private set; }
 
     [Inject]
-    public void Construct(SignalBus signalBus, Game game, MainSetting mainSetting, World world, Rigidbody2D rigidbody, SpriteRenderer renderer)
+    public void Construct(SignalBus signalBus, Game game, MainSetting mainSetting, ThematicSetting thematicSetting,World world, Rigidbody2D rigidbody, SpriteRenderer renderer)
     {
         _signalBus = signalBus;
         _game = game;
         _mainSetting = mainSetting;
+        _thematicSetting = thematicSetting;
         _world = world;
         Rigidbody = rigidbody;
         Transform = transform;
         Renderer = renderer;
+
+        _signalBus.Subscribe<ThemeUpdated>(OnThemeUpdated);
     }
 
     private void FixedUpdate()
@@ -61,9 +66,19 @@ public class Ball : MonoBehaviour
         }
         else if (null != _hitPlatform && collision.contacts.Any(c => c.point.y < Transform.position.y))
         {
-            _hitPlatform.ShiftColor();
+            if (_hitPlatform.ColorChanger)
+            {
+                _hitPlatform.ShiftColor();
+            }
+
             _hitPlatform.ShowOnBallCollisionFX();
             Rigidbody.velocity = _mainSetting.VelocityAfterCollision * Vector2.up;
         }
+    }
+
+    private void OnThemeUpdated(ThemeUpdated msg)
+    {
+        var pallete = _thematicSetting.ChapterPalletes[msg.levelIndex / _mainSetting.levelsPerChapter];
+        Renderer.DOColor(pallete.ballColor, 0.5f);
     }
 }

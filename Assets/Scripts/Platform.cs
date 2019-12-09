@@ -14,7 +14,7 @@ public class Platform : MonoBehaviour
 
     private SignalBus _signalBus;
     private Game _game;
-    private short _colorDuoIndex;
+    private int _colorDuoIndex;
     private MainSetting _mainSetting;
     private ThematicSetting _thematicSetting;
     private VFXSetting _vfxSetting;
@@ -49,25 +49,15 @@ public class Platform : MonoBehaviour
         _signalBus.Subscribe<LevelLoaded>(OnLevelLoaded);
     }
 
-    public void Init(State state, Level level)
+    public void Init(Level level)
     {
         _level = level;
 
-        Transient = state.transient;
-        ColorChanger = state.colorChanger;
+        ColorChanger = false;
+        Transient = false;
 
-        if (ColorChanger)
-        {
-            _colorDuoIndex = (short)Random.Range(0, _thematicSetting.platformColorSequence.Length);
-
-            _renderer.material.SetColor(_colorAID, _thematicSetting.platformColorSequence[_colorDuoIndex].colorA);
-            _renderer.material.SetColor(_colorBID, _thematicSetting.platformColorSequence[_colorDuoIndex].colorB);
-        }
-        else
-        {
-            _renderer.material.SetColor(_colorAID, _thematicSetting.ChapterPalletes[_level.Index / _mainSetting.levelsPerChapter].platformColor.colorA);
-            _renderer.material.SetColor(_colorBID, _thematicSetting.ChapterPalletes[_level.Index / _mainSetting.levelsPerChapter].platformColor.colorA);
-        }
+        _renderer.material.SetColor(_colorAID, _thematicSetting.ChapterPalletes[_level.Index / _mainSetting.levelsPerChapter].platformColor.colorA);
+        _renderer.material.SetColor(_colorBID, _thematicSetting.ChapterPalletes[_level.Index / _mainSetting.levelsPerChapter].platformColor.colorB);
     }
 
     private void OnEnable()
@@ -80,6 +70,21 @@ public class Platform : MonoBehaviour
     private void OnDisable()
     {
         StopCoroutine(CustomTick());
+    }
+
+    public void SetAsColorChanger(int colorDuoIndex)
+    {
+        ColorChanger = true;
+
+        _colorDuoIndex = colorDuoIndex;
+
+        _renderer.material.SetColor(_colorAID, _thematicSetting.platformColorSequence[_colorDuoIndex].colorA);
+        _renderer.material.SetColor(_colorBID, _thematicSetting.platformColorSequence[_colorDuoIndex].colorB);
+    }
+
+    public void SetAsTransient()
+    {
+        Transient = true;
     }
 
     private IEnumerator CustomTick()
@@ -104,9 +109,11 @@ public class Platform : MonoBehaviour
 
     public void ShiftColor()
     {
-        if (!ColorChanger)
+        CustomDebug.Assert(ColorChanger);
+
+        if (Transient)
         {
-            return;
+            CancelInvoke("ShiftColor");
         }
 
         _colorDuoIndex = (short)((_colorDuoIndex + 1) % _thematicSetting.platformColorSequence.Length);
@@ -213,20 +220,18 @@ public class Platform : MonoBehaviour
         _level = msg.level;
     }
 
-    public struct State
+    public struct Coord
     {
         public float radius;
         public float theta;
-        public bool colorChanger;
-        public bool transient;
     }
 
-    public class Factory : PlaceholderFactory<Platform.State, Level, Platform>
+    public class Factory : PlaceholderFactory<Platform.Coord, Level, Platform>
     {
     }
 }
 
-public class PlatformFactory : IFactory<Platform.State, Level, Platform>
+public class PlatformFactory : IFactory<Platform.Coord, Level, Platform>
 {
     private readonly DiContainer _container;
     private readonly LevelSetting _levelSetting;
@@ -240,7 +245,7 @@ public class PlatformFactory : IFactory<Platform.State, Level, Platform>
         _platfromSetting = platformSetting;
     }
 
-    public Platform Create(Platform.State state, Level level)
+    public Platform Create(Platform.Coord state, Level level)
     {
         CustomDebug.Assert(_platfromSetting.maxLengthCurve.Evaluate(level.Index) > _platfromSetting.minLengthCurve.Evaluate(level.Index));
 
@@ -254,7 +259,7 @@ public class PlatformFactory : IFactory<Platform.State, Level, Platform>
         CustomDebug.Assert(prefabIndex < _platfromSetting.prefabs.Length);
 
         _instance = _container.InstantiatePrefabForComponent<Platform>(_platfromSetting.prefabs[prefabIndex], level.Transform);
-        _instance.Init(state, level);
+        _instance.Init(level);
         level.Platforms.Add(_instance);
         _instance.Transform.localPosition = new Vector2(state.radius * Mathf.Cos(state.theta * Mathf.Deg2Rad), state.radius * Mathf.Sin(state.theta * Mathf.Deg2Rad));
 

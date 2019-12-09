@@ -16,7 +16,7 @@ public class Background : MonoBehaviour
         _colorBID = Shader.PropertyToID("_ColorB");
     }
 
-    public void Init(Color colorA, Color colorB)
+    public void SetColor(Color colorA, Color colorB)
     {
         _renderer.material.SetColor(_colorAID, colorA);
         _renderer.material.SetColor(_colorBID, colorB);

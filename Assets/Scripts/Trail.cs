@@ -6,6 +6,7 @@
 //   rotate with the object itself, instead of leaving a trail behind in it's
 //   parent's coordinate system.
 
+using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
@@ -25,15 +26,21 @@ public class Trail : MonoBehaviour
     private Vector3 _lastPosition;     // internal log of last trail point... could also use myLine.GetPosition(myLine.numPositions)
     private Vector3[] _tempArray;
     private Vector3 _position;
+    private ThematicSetting _thematicSetting;
+    private MainSetting _mainSetting;
 
     [Inject]
-    public void Construct(Game game, SignalBus signalBus, World world,LineRenderer renderer)
+    public void Construct(Game game, SignalBus signalBus, MainSetting mainSetting, ThematicSetting thematicSetting, World world, LineRenderer renderer)
     {
         _game = game;
         _signalBus = signalBus;
+        _mainSetting = mainSetting;
+        _thematicSetting = thematicSetting;
         _world = world;
         _renderer = renderer;
         _transform = transform;
+
+        _signalBus.Subscribe<ThemeUpdated>(OnThemeUpdated);
     }
 
     void Start()
@@ -109,13 +116,20 @@ public class Trail : MonoBehaviour
     void Update()
     {
         // Get the current position of the object in local space
-         _position = _parent.InverseTransformPoint(_objToFollow.position);
-       
+        _position = _parent.InverseTransformPoint(_objToFollow.position);
+
         // Check to see if object has moved far enough
         if (Vector3.Distance(_position, _lastPosition) > threshod)
         {
             // ..and add the point to the trail if so
             AddPoint(_position);
         }
+    }
+
+    private void OnThemeUpdated(ThemeUpdated msg)
+    {
+        var pallete = _thematicSetting.ChapterPalletes[msg.levelIndex / _mainSetting.levelsPerChapter];
+        Color2 color2 = new Color2() { ca = pallete.ballColor, cb = pallete.ballColor };
+        _renderer.DOColor(color2, color2, 0.3f);
     }
 }

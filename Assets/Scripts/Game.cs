@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -11,8 +12,10 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
     private readonly SignalBus _signalBus;
     private readonly AsyncProcessor _asyncProcessor;
     private readonly MainSetting _mainSetting;
+    private readonly ThematicSetting _thematicSetting;
     private readonly Level.Factory _levelFactory;
     private readonly World _world;
+    private readonly TextMeshProUGUI _scoreText;
     private readonly List<Level> _levels;
 
     private Level _level;
@@ -27,18 +30,21 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
     private float _screenWidth;
     private bool _acceptInput;
     private int _score = 0;
+    private float _dpi;
 
     public Ball Ball { get; private set; }
     public Trail Trail { get; private set; }
 
-    public Game(DiContainer container, SignalBus signalBus, AsyncProcessor asyncProcessor, MainSetting mainSetting, Level.Factory levelFactory, World world)
+    public Game(DiContainer container, SignalBus signalBus, AsyncProcessor asyncProcessor, MainSetting mainSetting, ThematicSetting thematicSetting,Level.Factory levelFactory, World world, TextMeshProUGUI scoreText)
     {
         _container = container;
         _signalBus = signalBus;
         _asyncProcessor = asyncProcessor;
         _mainSetting = mainSetting;
+        _thematicSetting = thematicSetting;
         _levelFactory = levelFactory;
         _world = world;
+        _scoreText = scoreText;
         _levels = new List<Level>();
 
         _signalBus.Subscribe<BallHitBorder>(OnBallHitBorder);
@@ -48,6 +54,8 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
 
     public void Initialize()
     {
+        _world.Construct();
+
         LoadLevel(0);
 
         ConstructBall();
@@ -56,6 +64,12 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
         Input.multiTouchEnabled = false;
         _acceptInput = true;
         _screenWidth = Screen.width;
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        _dpi = GetDPI();
+#else
+        _dpi = Screen.dpi;
+#endif
     }
 
     private void LoadLevel(int index)
@@ -63,6 +77,15 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
         _level = _levelFactory.Create(index);
         _signalBus.Fire(new LevelLoaded { level = _level });
         _levels.Add(_level);
+
+        if (_level.Index % _mainSetting.levelsPerChapter == 0)
+        {
+            _signalBus.Fire(new ThemeUpdated() { levelIndex = _level.Index });
+
+            var pallete= _thematicSetting.ChapterPalletes[_level.Index / _mainSetting.levelsPerChapter];
+            _scoreText.DOColor(pallete.fontColor, 0.3f);
+        }
+
         CustomDebug.Log($"Level {_level.Index} loaded");
     }
 
@@ -97,6 +120,8 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
             return;
         }
 
+        //CustomDebug.Log($"_dpi {_dpi}");
+
         if (Input.GetMouseButtonDown(0))
         {
             _lastTouch = Input.mousePosition;
@@ -108,7 +133,7 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
             _touchTime = Time.unscaledTime;
 
             var swipeSpeed = -Mathf.Sign(_touch.x - _lastTouch.x) * (_touch - _lastTouch).magnitude / (_touchTime - _lastTouchTime);
-            _rotationalSpeed = Mathf.Lerp(_rotationalSpeed, swipeSpeed / (0.02f * _screenWidth), 40.0f * Time.unscaledDeltaTime);
+            _rotationalSpeed = Mathf.Lerp(_rotationalSpeed, swipeSpeed / (0.2f * _dpi), 40.0f * Time.unscaledDeltaTime);
             _world.Transform.Rotate(Vector3.forward, _rotationalSpeed * Time.unscaledDeltaTime);
 
             _lastTouch = _touch;
@@ -149,6 +174,7 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
 
     private void OnBallHitBorder()
     {
+        UpdateScore(0);
         ReorientLevel();
     }
 
@@ -202,9 +228,27 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
 
     private void LevelPassed()
     {
+        UpdateScore(_score + 1);
         //GameObject.Destroy(Level.gameObject);
-        UnloadLevel(_level.Index - 1);
+        UnloadLevel(_level.Index - 3);
         LoadLevel(_level.Index + 1);
         ReorientLevel();
+    }
+
+    private void UpdateScore(int score)
+    {
+        _score = score;
+        _scoreText.text = _score.ToString();
+    }
+
+    float GetDPI()
+    {
+        AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject activity = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
+
+        AndroidJavaObject metrics = new AndroidJavaObject("android.util.DisplayMetrics");
+        activity.Call<AndroidJavaObject>("getWindowManager").Call<AndroidJavaObject>("getDefaultDisplay").Call("getMetrics", metrics);
+
+        return (metrics.Get<float>("xdpi") + metrics.Get<float>("ydpi")) * 0.5f;
     }
 }

@@ -26,7 +26,8 @@ MonoBehaviour:
     platformColor:
       colorA: {r: 0, g: 0, b: 0, a: 1}
       colorB: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 1}
-    borderColor: {r: 0, g: 0.9607843, b: 1, a: 1}
+    borderColor: {r: 0.9698819, g: 1, b: 0, a: 1}
+    obstacleColor: {r: 1, g: 0, b: 0, a: 1}
     ballColor: {r: 0, g: 0.9616327, b: 1, a: 1}
     trailColor: {r: 0, g: 0.9607843, b: 1, a: 1}
     fontColor: {r: 1, g: 1, b: 1, a: 1}
@@ -37,9 +38,10 @@ MonoBehaviour:
       colorA: {r: 0, g: 0, b: 0, a: 1}
       colorB: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
     borderColor: {r: 0, g: 0.9607843, b: 1, a: 1}
-    ballColor: {r: 0, g: 0.9607843, b: 1, a: 1}
-    trailColor: {r: 0, g: 0.9607843, b: 1, a: 1}
-    fontColor: {r: 1, g: 1, b: 1, a: 1}
+    obstacleColor: {r: 1, g: 0, b: 0, a: 1}
+    ballColor: {r: 1, g: 0.97088087, b: 0, a: 1}
+    trailColor: {r: 1, g: 0.972549, b: 0, a: 1}
+    fontColor: {r: 1, g: 0.8942925, b: 0, a: 1}
   - backgroundColor:
       colorA: {r: 0, g: 0.18470699, b: 0.4056604, a: 1}
       colorB: {r: 0.008009953, g: 0.26556143, b: 0.5660378, a: 1}
@@ -47,6 +49,7 @@ MonoBehaviour:
       colorA: {r: 0, g: 0, b: 0, a: 1}
       colorB: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
     borderColor: {r: 1, g: 0.17079794, b: 0, a: 1}
+    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 1, g: 0.3835763, b: 0.3254717, a: 1}
     trailColor: {r: 1, g: 0.17254902, b: 0, a: 1}
     fontColor: {r: 1, g: 1, b: 1, a: 1}
@@ -57,6 +60,7 @@ MonoBehaviour:
       colorA: {r: 0, g: 0, b: 0, a: 0}
       colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
+    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}
@@ -67,6 +71,7 @@ MonoBehaviour:
       colorA: {r: 0, g: 0, b: 0, a: 0}
       colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
+    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}
@@ -77,6 +82,7 @@ MonoBehaviour:
       colorA: {r: 0, g: 0, b: 0, a: 0}
       colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
+    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}
@@ -87,6 +93,7 @@ MonoBehaviour:
       colorA: {r: 0, g: 0, b: 0, a: 0}
       colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
+    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}
@@ -97,6 +104,7 @@ MonoBehaviour:
       colorA: {r: 0, g: 0, b: 0, a: 0}
       colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
+    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}
@@ -107,6 +115,7 @@ MonoBehaviour:
       colorA: {r: 0, g: 0, b: 0, a: 0}
       colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
+    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}
@@ -117,6 +126,7 @@ MonoBehaviour:
       colorA: {r: 0, g: 0, b: 0, a: 0}
       colorB: {r: 0, g: 0, b: 0, a: 0}
     borderColor: {r: 0, g: 0, b: 0, a: 0}
+    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
     ballColor: {r: 0, g: 0, b: 0, a: 0}
     trailColor: {r: 0, g: 0, b: 0, a: 0}
     fontColor: {r: 0, g: 0, b: 0, a: 0}

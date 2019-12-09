@@ -13,6 +13,8 @@ public class SceneInstaller : MonoInstaller
     [SerializeField] BorderSetting _borderSetting;
     [SerializeField] ObstacleSetting _obstacleSetting;
 
+    [SerializeField] TextMeshProUGUI _scoreText;
+
     public override void InstallBindings()
     {
         SignalBusInstaller.Install(Container);
@@ -28,7 +30,7 @@ public class SceneInstaller : MonoInstaller
         Container.Bind<Rigidbody2D>().FromComponentInChildren(true);
         Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle();
         Container.Bind<Canvas>().FromComponentInChildren(true);
-        Container.Bind<TextMeshProUGUI>().FromComponentInChildren(true);
+        //Container.Bind<TextMeshProUGUI>().FromComponentInChildren(true);
 
         Container.BindExecutionOrder<Game>(-100);
 
@@ -39,11 +41,12 @@ public class SceneInstaller : MonoInstaller
         Container.BindInstance(_platformSetting).AsSingle();
         Container.BindInstance(_borderSetting).AsSingle();
         Container.BindInstance(_obstacleSetting).AsSingle();
+        Container.BindInstance(_scoreText).AsSingle();
 
         Container.BindFactory<int, Level, Level.Factory>().FromFactory<LevelFactory>();
-        Container.BindFactory<float, bool, Level, Border, Border.Factory>().FromFactory<BorderFactory>();
-        Container.BindFactory<Platform.State, Level, Platform, Platform.Factory>().FromFactory<PlatformFactory>();
-        Container.BindFactory<Obstacle.State, Level, Obstacle, Obstacle.Factory>().FromFactory<ObstacleFactory>();
+        Container.BindFactory<float, Border, Border.Factory>().FromFactory<BorderFactory>();
+        Container.BindFactory<Platform.Coord, Level, Platform, Platform.Factory>().FromFactory<PlatformFactory>();
+        Container.BindFactory<Obstacle.Coord, Level, Obstacle, Obstacle.Factory>().FromFactory<ObstacleFactory>();
 
         //Container.Bind<State>().FromComponentsInChildren(false, null, true);
 
@@ -58,5 +61,6 @@ public class SceneInstaller : MonoInstaller
         Container.DeclareSignal<BallHitObstacle>();
         Container.DeclareSignal<BallHitCore>();
         Container.DeclareSignal<LevelLoaded>();
+        Container.DeclareSignal<ThemeUpdated>();
     }
 }

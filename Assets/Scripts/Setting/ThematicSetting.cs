@@ -12,6 +12,7 @@ public class ThematicSetting : ScriptableObject
         public ColorDuo backgroundColor;
         public ColorDuo platformColor;
         public Color borderColor;
+        public Color obstacleColor;
         public Color ballColor;
         public Color trailColor;
         public Color fontColor;

@@ -10,6 +10,7 @@ public class Level : MonoBehaviour
 
     public int Index { get; private set; }
     public float Span { get; private set; }
+    public int DesiredPlatformCount { get; private set; }
     public int ChannelCount { get; private set; }
     public float ChannelSpan { get; private set; }
     public List<Platform> Platforms { get; set; }
@@ -25,10 +26,11 @@ public class Level : MonoBehaviour
         Obstacles = new List<Obstacle>();
     }
 
-    internal void Init(int index, float span, int channelCount)
+    public void Init(int index, float span, int platformCount, int channelCount)
     {
         Index = index;
         Span = span;
+        DesiredPlatformCount = platformCount;
         ChannelCount = channelCount;
         ChannelSpan = span / channelCount;
     }
@@ -61,11 +63,10 @@ public class LevelFactory : IFactory<int, Level>
     public Level Create(int index)
     {
         var instance = _container.InstantiatePrefabForComponent<Level>(_levelSetting.levelPrefab, _world.Transform);
-        instance.Init(index, 360.0f / _mainSetting.segmentCount, (int)_levelSetting.channelCountCurve.Evaluate(index));
+        instance.Init(index, 360.0f / _mainSetting.segmentCount, (int)_levelSetting.platformCountCurve.Evaluate(index), (int)_levelSetting.channelCountCurve.Evaluate(360.0f / _mainSetting.segmentCount));
 
         instance.Transform.localRotation = Quaternion.Euler(0.0f, 0.0f, instance.Span * instance.Index);
 
-        ConstructBorders(instance);
         ConstructPlatformsAndObstacles(instance);
         //ConstructObstacles(instance);
 
@@ -74,117 +75,115 @@ public class LevelFactory : IFactory<int, Level>
         return instance;
     }
 
-    private void ConstructBorders(Level level)
-    {
-        _borderFactory.Create(90.0f - level.Span / 2.0f, level.Index == 0, level);
-        _borderFactory.Create(90.0f + level.Span / 2.0f, level.Index == 0, level);
-    }
-
     private void ConstructPlatformsAndObstacles(Level level)
     {
+        var desiredPlatformPercentage = _levelSetting.platformPercentageCurve.Evaluate(level.Index);
+        var desiredColorChangerPercentage = _levelSetting.colorChangerPlatformPercentageCurve.Evaluate(level.Index);
+        var desiredTransienPercentage = _levelSetting.transientPlatformPercentageCurve.Evaluate(level.Index);
+        var obstacleChance = _levelSetting.obstacleChance.Evaluate(level.Index);
+
+        var channelCount = level.ChannelCount;
+        var rowCount = Mathf.CeilToInt(level.DesiredPlatformCount / desiredPlatformPercentage / channelCount);
+        var cellCount = channelCount * rowCount;
+
+        CustomDebug.Log($"DesiredPlatformCount: {level.DesiredPlatformCount}, rowCount: {rowCount}");
+
         var channelSpan = level.ChannelSpan;
-        var platformRndCrit = 0.0f;
-        var obstacleRndCrit = 0.5f;
-        var transientRndCrit = 0.9f;
-        var colorChangeRndCrit = 0.5f;
 
-        for (var r = _mainSetting.coreRadius + _levelSetting.nearestPlatformOffset; r <= _mainSetting.coreRadius + _levelSetting.farthestPlatformOffset.Evaluate(level.Index); r += _levelSetting.platformPlacementInterval.Evaluate(level.Index))
+        var closeRadius = _mainSetting.coreRadius + _levelSetting.nearestPlatformOffset;
+        var farRadius = closeRadius + _mainSetting.jumpHeight * rowCount;
+        var radialInterval = _mainSetting.jumpHeight * 0.5f;
+
+        var occupiedCellCoord = new List<Vector2>();
+
+        while (level.Platforms.Count < level.DesiredPlatformCount)
         {
-            platformRndCrit = Random.Range(0.0f, 1.0f);
+            var lastChannel = -1;
 
-            if (level.ChannelCount == 1)
+            for (var row = 0; row < rowCount; row++)
             {
-                _platformFactory.Create(ConstructPlatformState(r, 90.0f, IsTransient(level, transientRndCrit), IsColorChanger(level, colorChangeRndCrit)), level);
+                var channel = Random.Range(0, channelCount);
 
-                if (ShouldTerminateProceduralGeneration(level))
+                while (channel == lastChannel && channelCount != 1)
                 {
-                    return;
+                    channel = Random.Range(0, channelCount);
                 }
-            }
-            else
-            {
-                for (var channel = 0; channel < level.ChannelCount; channel++)
+
+                var r = closeRadius + row * radialInterval;
+                var theta = 90.0f - level.Span / 2.0f + (2.0f * (channel + 1) - 1) * channelSpan / 2.0f;
+
+                if (!occupiedCellCoord.Contains(new Vector2(r, theta)))
                 {
-                    var theta = 90.0f - level.Span / 2.0f + (2.0f * (channel + 1) - 1) * channelSpan / 2.0f;
+                    _platformFactory.Create(ConstructPlatformState(r, theta), level);
+                    occupiedCellCoord.Add(new Vector2(r, theta));
+                }
+                else
+                {
+                    CustomDebug.Log("Skipping occupied cell");
+                }
 
-                    if (Random.Range(0.0f, 1.0f) > platformRndCrit)
-                    {
-                        _platformFactory.Create(ConstructPlatformState(r, theta, IsTransient(level, transientRndCrit), IsColorChanger(level, colorChangeRndCrit)), level);
-                        platformRndCrit = Mathf.Clamp01(platformRndCrit + 1.0f / (level.ChannelCount - 1) * Mathf.Lerp(1.5f, 0.5f, _levelSetting.platformAbundance.Evaluate(level.Index)));
-                    }
-                    else
-                    {
-                        if (Mathf.Abs(theta - 90.0f) > 5.0f && Random.Range(0.0f, 1.0f) > obstacleRndCrit)
-                        {
-                            _obstacleFactory.Create(ConstructObstacleState(r, theta), level);
-                            obstacleRndCrit = Mathf.Clamp01(obstacleRndCrit + 0.3f * Mathf.Lerp(1.5f, 0.5f, _levelSetting.obstacleAbundance.Evaluate(level.Index)));
-                        }
-                        else
-                        {
-                            obstacleRndCrit = Mathf.Clamp01(obstacleRndCrit - 3.0f * Mathf.Lerp(0.5f, 1.5f, _levelSetting.obstacleAbundance.Evaluate(level.Index)));
-                        }
+                lastChannel = channel;
 
-                        platformRndCrit = Mathf.Clamp01(platformRndCrit - 1.0f / (level.ChannelCount - 1));
-                    }
-
-                    if (ShouldTerminateProceduralGeneration(level))
-                    {
-                        return;
-                    }
+                if (level.Platforms.Count >= level.DesiredPlatformCount)
+                {
+                    break;
                 }
             }
         }
-    }
 
-    private bool IsTransient(Level level, float rndCrit)
-    {
-        var transient = Random.Range(0.0f, 1.0f) > rndCrit;
+        var desiredColorChangerCount = desiredColorChangerPercentage * level.Platforms.Count;
+        var lastIndex = -1;
+        var index = -1;
 
-        if (level.Platforms.Count(p => p.Transient) > _levelSetting.MaxTransientPlatforms)
+        while (level.Platforms.Count(p => p.ColorChanger) < desiredColorChangerCount)
         {
-            transient = false;
+            index = Random.Range(0, _thematicSetting.platformColorSequence.Length);
+
+            while (index == lastIndex)
+            {
+                index = Random.Range(0, _thematicSetting.platformColorSequence.Length);
+            }
+
+            level.Platforms.Where(p => !p.ColorChanger).ElementAt(Random.Range(0, level.Platforms.Count(p => !p.ColorChanger))).SetAsColorChanger(index);
+            lastIndex = index;
         }
 
-        return transient;
-    }
+        var desiredTransientCount = desiredTransienPercentage * level.Platforms.Count(p => p.ColorChanger);
 
-    private bool IsColorChanger(Level level, float rndCrit)
-    {
-        var colorChanger = Random.Range(0.0f, 1.0f) > rndCrit;
-
-        if (level.Platforms.Count < 3)
+        while ((float)level.Platforms.Count(p => p.Transient) / (float)level.Platforms.Count(p => p.ColorChanger) < desiredTransienPercentage)
         {
-            colorChanger = true;
+            level.Platforms.Where(p => p.ColorChanger && !p.Transient).ElementAt(Random.Range(0, level.Platforms.Count(p => p.ColorChanger && !p.Transient))).SetAsTransient();
         }
 
-        if (level.Platforms.Count(p => p.ColorChanger) > _levelSetting.MaxColorChangerPlatforms)
+        for (var row = 0; row < rowCount; row++)
         {
-            colorChanger = false;
+            var r = closeRadius + row * radialInterval;
+
+            for (var channelEdge = 1; channelEdge < channelCount; channelEdge++)
+            {
+                var theta = 90.0f - level.Span / 2.0f + channelEdge * channelSpan;
+
+                if (Random.Range(0.0f, 1.0f) < obstacleChance)
+                {
+                    _obstacleFactory.Create(ConstructObstacleState(r, theta), level);
+                }
+            }
         }
-
-        return colorChanger;
     }
 
-    private bool ShouldTerminateProceduralGeneration(Level level)
+    private static Platform.Coord ConstructPlatformState(float r, float theta)
     {
-        return level.Platforms.Count(p => !p.ColorChanger) >= _levelSetting.MaxSolidPlatforms;
-    }
-
-    private static Platform.State ConstructPlatformState(float r, float theta, bool transient, bool colorChanger)
-    {
-        Platform.State platformState;
+        Platform.Coord platformState;
 
         platformState.radius = r;
         platformState.theta = theta;
-        platformState.transient = transient;
-        platformState.colorChanger = colorChanger;
 
         return platformState;
     }
 
-    private static Obstacle.State ConstructObstacleState(float r, float theta)
+    private static Obstacle.Coord ConstructObstacleState(float r, float theta)
     {
-        Obstacle.State obstacleState;
+        Obstacle.Coord obstacleState;
 
         obstacleState.radius = r;
         obstacleState.theta = theta;
