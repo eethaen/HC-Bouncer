@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 
-public partial class Game : IInitializable, ITickable, IFixedTickable
+public class Game : IInitializable, ITickable, IFixedTickable
 {
     private readonly DiContainer _container;
     private readonly SignalBus _signalBus;
@@ -35,7 +35,7 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
     public Ball Ball { get; private set; }
     public Trail Trail { get; private set; }
 
-    public Game(DiContainer container, SignalBus signalBus, AsyncProcessor asyncProcessor, MainSetting mainSetting, ThematicSetting thematicSetting,Level.Factory levelFactory, World world, TextMeshProUGUI scoreText)
+    public Game(DiContainer container, SignalBus signalBus, AsyncProcessor asyncProcessor, MainSetting mainSetting, ThematicSetting thematicSetting, Level.Factory levelFactory, World world, TextMeshProUGUI scoreText)
     {
         _container = container;
         _signalBus = signalBus;
@@ -82,7 +82,7 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
         {
             _signalBus.Fire(new ThemeUpdated() { levelIndex = _level.Index });
 
-            var pallete= _thematicSetting.ChapterPalletes[_level.Index / _mainSetting.levelsPerChapter];
+            var pallete = _thematicSetting.ChapterPalletes[_level.Index / _mainSetting.levelsPerChapter];
             _scoreText.DOColor(pallete.fontColor, 0.3f);
         }
 
@@ -91,7 +91,7 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
 
     private void UnloadLevel(int index)
     {
-        if (!_levels.Any(l => l.Index == index))
+        if (_levels.All(l => l.Index != index))
         {
             return;
         }
@@ -133,7 +133,7 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
             _touchTime = Time.unscaledTime;
 
             var swipeSpeed = -Mathf.Sign(_touch.x - _lastTouch.x) * (_touch - _lastTouch).magnitude / (_touchTime - _lastTouchTime);
-            _rotationalSpeed = Mathf.Lerp(_rotationalSpeed, swipeSpeed / (0.2f * _dpi), 40.0f * Time.unscaledDeltaTime);
+            _rotationalSpeed = Mathf.Lerp(_rotationalSpeed, swipeSpeed / (_mainSetting.swipeIndex * _dpi), 40.0f * Time.unscaledDeltaTime);
             _world.Transform.Rotate(Vector3.forward, _rotationalSpeed * Time.unscaledDeltaTime);
 
             _lastTouch = _touch;
@@ -205,11 +205,11 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
     {
         if (!_level.Revealed)
         {
-            _asyncProcessor.StartCoroutine(RevealPlatforms());
+            _asyncProcessor.StartCoroutine(RevealLevel());
         }
     }
 
-    private IEnumerator RevealPlatforms()
+    private IEnumerator RevealLevel()
     {
         for (var i = 0; i < _level.Platforms.Count; i++)
         {
@@ -243,10 +243,10 @@ public partial class Game : IInitializable, ITickable, IFixedTickable
 
     float GetDPI()
     {
-        AndroidJavaClass activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        AndroidJavaObject activity = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
+        var activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        var activity = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
 
-        AndroidJavaObject metrics = new AndroidJavaObject("android.util.DisplayMetrics");
+        var metrics = new AndroidJavaObject("android.util.DisplayMetrics");
         activity.Call<AndroidJavaObject>("getWindowManager").Call<AndroidJavaObject>("getDefaultDisplay").Call("getMetrics", metrics);
 
         return (metrics.Get<float>("xdpi") + metrics.Get<float>("ydpi")) * 0.5f;

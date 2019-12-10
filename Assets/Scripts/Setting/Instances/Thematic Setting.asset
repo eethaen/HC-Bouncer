@@ -13,120 +13,23 @@ MonoBehaviour:
   m_Name: Thematic Setting
   m_EditorClassIdentifier: 
   platformColorSequence:
-  - colorA: {r: 1, g: 0, b: 0, a: 1}
+  - colorA: {r: 1, g: 0.989607, b: 0, a: 1}
     colorB: {r: 1, g: 0.34117648, b: 0, a: 1}
-  - colorA: {r: 0, g: 0.13428664, b: 1, a: 1}
+  - colorA: {r: 0, g: 0.89485645, b: 1, a: 1}
     colorB: {r: 0, g: 0.48235294, b: 1, a: 1}
-  - colorA: {r: 0, g: 0.4627451, b: 0.08543229, a: 1}
-    colorB: {r: 0, g: 0.83137256, b: 0.08627451, a: 1}
+  - colorA: {r: 0.5799701, g: 0.9433962, b: 0.084549636, a: 1}
+    colorB: {r: 0.041384827, g: 0.5849056, b: 0.09778793, a: 1}
+  - colorA: {r: 0.9419619, g: 0.2216981, b: 1, a: 1}
+    colorB: {r: 0.5569443, g: 0.15886435, b: 0.6603774, a: 1}
   ChapterPalletes:
   - backgroundColor:
-      colorA: {r: 0, g: 0.013520718, b: 1, a: 1}
-      colorB: {r: 0, g: 0.022641486, b: 0.33962262, a: 1}
+      colorA: {r: 0.03858135, g: 0.05994905, b: 0.16037738, a: 1}
+      colorB: {r: 0.06852971, g: 0.16802803, b: 0.41509432, a: 1}
     platformColor:
-      colorA: {r: 0, g: 0, b: 0, a: 1}
-      colorB: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 1}
-    borderColor: {r: 0.9698819, g: 1, b: 0, a: 1}
-    obstacleColor: {r: 1, g: 0, b: 0, a: 1}
+      colorA: {r: 1, g: 1, b: 1, a: 1}
+      colorB: {r: 1, g: 1, b: 1, a: 1}
+    borderColor: {r: 0, g: 0.9301295, b: 1, a: 1}
+    obstacleColor: {r: 1, g: 1, b: 1, a: 1}
     ballColor: {r: 0, g: 0.9616327, b: 1, a: 1}
     trailColor: {r: 0, g: 0.9607843, b: 1, a: 1}
     fontColor: {r: 1, g: 1, b: 1, a: 1}
-  - backgroundColor:
-      colorA: {r: 0.42396927, g: 0, b: 1, a: 1}
-      colorB: {r: 0.6091032, g: 0.25490195, b: 0.8, a: 1}
-    platformColor:
-      colorA: {r: 0, g: 0, b: 0, a: 1}
-      colorB: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
-    borderColor: {r: 0, g: 0.9607843, b: 1, a: 1}
-    obstacleColor: {r: 1, g: 0, b: 0, a: 1}
-    ballColor: {r: 1, g: 0.97088087, b: 0, a: 1}
-    trailColor: {r: 1, g: 0.972549, b: 0, a: 1}
-    fontColor: {r: 1, g: 0.8942925, b: 0, a: 1}
-  - backgroundColor:
-      colorA: {r: 0, g: 0.18470699, b: 0.4056604, a: 1}
-      colorB: {r: 0.008009953, g: 0.26556143, b: 0.5660378, a: 1}
-    platformColor:
-      colorA: {r: 0, g: 0, b: 0, a: 1}
-      colorB: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
-    borderColor: {r: 1, g: 0.17079794, b: 0, a: 1}
-    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
-    ballColor: {r: 1, g: 0.3835763, b: 0.3254717, a: 1}
-    trailColor: {r: 1, g: 0.17254902, b: 0, a: 1}
-    fontColor: {r: 1, g: 1, b: 1, a: 1}
-  - backgroundColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    platformColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    borderColor: {r: 0, g: 0, b: 0, a: 0}
-    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
-    ballColor: {r: 0, g: 0, b: 0, a: 0}
-    trailColor: {r: 0, g: 0, b: 0, a: 0}
-    fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    platformColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    borderColor: {r: 0, g: 0, b: 0, a: 0}
-    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
-    ballColor: {r: 0, g: 0, b: 0, a: 0}
-    trailColor: {r: 0, g: 0, b: 0, a: 0}
-    fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    platformColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    borderColor: {r: 0, g: 0, b: 0, a: 0}
-    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
-    ballColor: {r: 0, g: 0, b: 0, a: 0}
-    trailColor: {r: 0, g: 0, b: 0, a: 0}
-    fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    platformColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    borderColor: {r: 0, g: 0, b: 0, a: 0}
-    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
-    ballColor: {r: 0, g: 0, b: 0, a: 0}
-    trailColor: {r: 0, g: 0, b: 0, a: 0}
-    fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    platformColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    borderColor: {r: 0, g: 0, b: 0, a: 0}
-    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
-    ballColor: {r: 0, g: 0, b: 0, a: 0}
-    trailColor: {r: 0, g: 0, b: 0, a: 0}
-    fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    platformColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    borderColor: {r: 0, g: 0, b: 0, a: 0}
-    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
-    ballColor: {r: 0, g: 0, b: 0, a: 0}
-    trailColor: {r: 0, g: 0, b: 0, a: 0}
-    fontColor: {r: 0, g: 0, b: 0, a: 0}
-  - backgroundColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    platformColor:
-      colorA: {r: 0, g: 0, b: 0, a: 0}
-      colorB: {r: 0, g: 0, b: 0, a: 0}
-    borderColor: {r: 0, g: 0, b: 0, a: 0}
-    obstacleColor: {r: 0, g: 0, b: 0, a: 0}
-    ballColor: {r: 0, g: 0, b: 0, a: 0}
-    trailColor: {r: 0, g: 0, b: 0, a: 0}
-    fontColor: {r: 0, g: 0, b: 0, a: 0}

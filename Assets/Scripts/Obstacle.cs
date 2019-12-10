@@ -6,14 +6,10 @@ using Zenject;
 
 public class Obstacle : MonoBehaviour
 {
-    [SerializeField] private Collider2D _levelGenCollider;
-
     private SpriteRenderer _renderer;
     private float _scale;
 
-
     public Transform Transform { get; private set; }
-    public Collider2D LevelGenCollider { get => _levelGenCollider; set => _levelGenCollider = value; }
 
     [Inject]
     public void Construct(SpriteRenderer renderer)
@@ -75,7 +71,7 @@ public class ObstacleFactory : IFactory<Obstacle.Coord, Level, Obstacle>
         else
         {
             level.Obstacles.Add(_instance);
-            _instance.Transform.localScale = new Vector3(scale, scale, 1.0f);
+           //_instance.Transform.localScale = new Vector3(scale, scale, 1.0f);
             _instance.SetColor(_thematicSetting.ChapterPalletes[level.Index/_mainSetting.levelsPerChapter].obstacleColor);
         }
         

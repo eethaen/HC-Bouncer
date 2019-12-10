@@ -113,7 +113,7 @@ public class Platform : MonoBehaviour
 
         if (Transient)
         {
-            CancelInvoke("ShiftColor");
+            CancelInvoke(nameof(ShiftColor));
         }
 
         _colorDuoIndex = (short)((_colorDuoIndex + 1) % _thematicSetting.platformColorSequence.Length);
@@ -125,7 +125,7 @@ public class Platform : MonoBehaviour
 
                              if (Transient)
                              {
-                                 Invoke("ShiftColor", _platformSetting.TransientColorChangeInterval);
+                                 Invoke(nameof(ShiftColor), _platformSetting.TransientColorChangeInterval);
                              }
                          });
 
@@ -234,14 +234,12 @@ public class Platform : MonoBehaviour
 public class PlatformFactory : IFactory<Platform.Coord, Level, Platform>
 {
     private readonly DiContainer _container;
-    private readonly LevelSetting _levelSetting;
     private readonly PlatformSetting _platfromSetting;
     private Platform _instance;
 
     public PlatformFactory(DiContainer container, LevelSetting levelSetting, PlatformSetting platformSetting)
     {
         _container = container;
-        _levelSetting = levelSetting;
         _platfromSetting = platformSetting;
     }
 

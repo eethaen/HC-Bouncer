@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b819bfe72e7784b489bb5dc3554494c1, type: 3}
   m_Name: Main Setting
   m_EditorClassIdentifier: 
-  respawnTime: 1.5
-  maxRotationaSpeed: 45
-  levelsPerChapter: 10
-  gravity: 10
-  VelocityAfterCollision: 7
-  coreRadius: 3
-  segmentCount: 5
   trailPrefab: {fileID: 3686215552172963555, guid: 7ca6e14ade85eaa419a268f9d94a406d,
     type: 3}
   ballPrefab: {fileID: 7629634064004221656, guid: 8b46ab0ed3e65b44c83c3caceea87042,
     type: 3}
+  respawnTime: 1.5
+  maxRotationaSpeed: 45
+  levelsPerChapter: 10
+  gravity: 30
+  VelocityAfterCollision: 15
+  coreRadius: 3
+  segmentCount: 4
   spawnPoinOffset: 2
+  swipeIndex: 0.7

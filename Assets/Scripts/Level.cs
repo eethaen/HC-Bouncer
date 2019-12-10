@@ -7,7 +7,6 @@ using Random = UnityEngine.Random;
 public class Level : MonoBehaviour
 {
     public Transform Transform { get; private set; }
-
     public int Index { get; private set; }
     public float Span { get; private set; }
     public int DesiredPlatformCount { get; private set; }
@@ -79,7 +78,7 @@ public class LevelFactory : IFactory<int, Level>
     {
         var desiredPlatformPercentage = _levelSetting.platformPercentageCurve.Evaluate(level.Index);
         var desiredColorChangerPercentage = _levelSetting.colorChangerPlatformPercentageCurve.Evaluate(level.Index);
-        var desiredTransienPercentage = _levelSetting.transientPlatformPercentageCurve.Evaluate(level.Index);
+        var desiredTransientPercentage = _levelSetting.transientPlatformPercentageCurve.Evaluate(level.Index);
         var obstacleChance = _levelSetting.obstacleChance.Evaluate(level.Index);
 
         var channelCount = level.ChannelCount;
@@ -90,7 +89,7 @@ public class LevelFactory : IFactory<int, Level>
 
         var channelSpan = level.ChannelSpan;
 
-        var closeRadius = _mainSetting.coreRadius + _levelSetting.nearestPlatformOffset;
+        var closeRadius = _mainSetting.coreRadius + 0.25f * _mainSetting.jumpHeight;
         var farRadius = closeRadius + _mainSetting.jumpHeight * rowCount;
         var radialInterval = _mainSetting.jumpHeight * 0.5f;
 
@@ -148,9 +147,9 @@ public class LevelFactory : IFactory<int, Level>
             lastIndex = index;
         }
 
-        var desiredTransientCount = desiredTransienPercentage * level.Platforms.Count(p => p.ColorChanger);
+        var desiredTransientCount = desiredTransientPercentage * level.Platforms.Count(p => p.ColorChanger);
 
-        while ((float)level.Platforms.Count(p => p.Transient) / (float)level.Platforms.Count(p => p.ColorChanger) < desiredTransienPercentage)
+        while (level.Platforms.Count(p => p.Transient) / (float)level.Platforms.Count(p => p.ColorChanger) < desiredTransientPercentage)
         {
             level.Platforms.Where(p => p.ColorChanger && !p.Transient).ElementAt(Random.Range(0, level.Platforms.Count(p => p.ColorChanger && !p.Transient))).SetAsTransient();
         }

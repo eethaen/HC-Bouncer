@@ -3,13 +3,6 @@
 [CreateAssetMenu(fileName = "Main Setting", menuName = "Setting/Main", order = 0)]
 public class MainSetting : ScriptableObject
 {
-    public MainSetting()
-    {
-        var jumpTime = VelocityAfterCollision / gravity;
-        jumpHeight = -0.5f * gravity * jumpTime * jumpTime + VelocityAfterCollision * jumpTime;
-
-        CustomDebug.Log($" jumpTime: {jumpTime}, jumpHeight: {jumpHeight}");
-    }
 
     public Trail trailPrefab;
     public Ball ballPrefab;
@@ -30,5 +23,8 @@ public class MainSetting : ScriptableObject
     [Tooltip("The initial spawn point offset from core surfcae")]
     public float spawnPoinOffset = 3.0f;
 
-    public readonly float jumpHeight;
+    public float jumpTime => VelocityAfterCollision / gravity;
+
+    public float jumpHeight => -0.5f * gravity * jumpTime * jumpTime + VelocityAfterCollision * jumpTime;
+    public float swipeIndex = 0.2f;
 }

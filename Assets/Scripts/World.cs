@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -38,15 +37,15 @@ public class World : MonoBehaviour
 
     public void Construct()
     {
+        _segmentCount = _mainSetting.segmentCount;
+        _span = 360.0f / _segmentCount;
+
         ConstructCore();
         ConstructBorders();
     }
 
     private void ConstructCore()
     {
-        _segmentCount = _mainSetting.segmentCount;
-        _span = 360.0f / _segmentCount;
-
         _corePositions = new Vector2[_segmentCount + 1];
         LineRenderer.positionCount = _segmentCount + 1;
 
@@ -67,7 +66,7 @@ public class World : MonoBehaviour
     {
         var theta = 90.0f - _span / 2.0f;
 
-        for (int i = 0; i < _segmentCount; i++)
+        for (var i = 0; i < _segmentCount; i++)
         {
             _borders.Add(_borderFactory.Create(theta));
             theta += _span;
@@ -76,15 +75,14 @@ public class World : MonoBehaviour
 
     private void OnThemeUpdated(ThemeUpdated msg)
     {
-        CustomDebug.Log("Theme Updated");
-        var pallete = _thematicSetting.ChapterPalletes[msg.levelIndex / _mainSetting.levelsPerChapter];
+        var palette = _thematicSetting.ChapterPalletes[msg.levelIndex / _mainSetting.levelsPerChapter];
 
-        LineRenderer.startColor = LineRenderer.endColor = pallete.borderColor;
-        _background.SetColor(pallete.backgroundColor.colorA, pallete.backgroundColor.colorB);
+        LineRenderer.startColor = LineRenderer.endColor = palette.borderColor;
+        _background.SetColor(palette.backgroundColor.colorA, palette.backgroundColor.colorB);
 
         for (var i = 0; i < _borders.Count; i++)
         {
-            _borders[i].SetColor(pallete.borderColor);
+            _borders[i].SetColor(palette.borderColor);
         }
     }
 }

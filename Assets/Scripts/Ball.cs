@@ -6,7 +6,6 @@ using DG.Tweening;
 public class Ball : MonoBehaviour
 {
     private SignalBus _signalBus;
-    private Game _game;
     private MainSetting _mainSetting;
     private World _world;
     private Platform _hitPlatform;
@@ -23,7 +22,6 @@ public class Ball : MonoBehaviour
     public void Construct(SignalBus signalBus, Game game, MainSetting mainSetting, ThematicSetting thematicSetting,World world, Rigidbody2D rigidbody, SpriteRenderer renderer)
     {
         _signalBus = signalBus;
-        _game = game;
         _mainSetting = mainSetting;
         _thematicSetting = thematicSetting;
         _world = world;
@@ -78,7 +76,7 @@ public class Ball : MonoBehaviour
 
     private void OnThemeUpdated(ThemeUpdated msg)
     {
-        var pallete = _thematicSetting.ChapterPalletes[msg.levelIndex / _mainSetting.levelsPerChapter];
-        Renderer.DOColor(pallete.ballColor, 0.5f);
+        var palette = _thematicSetting.ChapterPalletes[msg.levelIndex / _mainSetting.levelsPerChapter];
+        Renderer.DOColor(palette.ballColor, 0.5f);
     }
 }

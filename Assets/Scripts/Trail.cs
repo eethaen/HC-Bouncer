@@ -99,7 +99,7 @@ public class Trail : MonoBehaviour
         // Create a temporary list of the desired length
         _tempArray = new Vector3[newCount];
         // Calculate how many extra items will need to be cut out from the original list
-        int extraCount = _renderer.positionCount - newCount;
+        var extraCount = _renderer.positionCount - newCount;
         // Loop through original list and add newest X items to temp list
         for (var i = 0; i < newCount; i++)
         {
@@ -128,8 +128,8 @@ public class Trail : MonoBehaviour
 
     private void OnThemeUpdated(ThemeUpdated msg)
     {
-        var pallete = _thematicSetting.ChapterPalletes[msg.levelIndex / _mainSetting.levelsPerChapter];
-        Color2 color2 = new Color2() { ca = pallete.ballColor, cb = pallete.ballColor };
+        var palette = _thematicSetting.ChapterPalletes[msg.levelIndex / _mainSetting.levelsPerChapter];
+        var color2 = new Color2() { ca = palette.ballColor, cb = palette.ballColor };
         _renderer.DOColor(color2, color2, 0.3f);
     }
 }
