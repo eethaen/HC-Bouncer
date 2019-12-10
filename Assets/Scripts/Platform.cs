@@ -72,6 +72,11 @@ public class Platform : MonoBehaviour
         StopCoroutine(CustomTick());
     }
 
+    private void OnDestroy()
+    {
+        StopCoroutine(CustomTick());
+    }
+
     public void SetAsColorChanger(int colorDuoIndex)
     {
         ColorChanger = true;
@@ -217,7 +222,20 @@ public class Platform : MonoBehaviour
 
     private void OnLevelLoaded(LevelLoaded msg)
     {
-        _level = msg.level;
+        if (this==null)
+        {
+            return;
+        }
+
+        if (null == _level)
+        {
+            _level = msg.level;
+        }
+        else if (_level.Index != msg.level.Index)
+        {
+            CancelInvoke();
+            _renderer.material.DOKill();
+        }
     }
 
     public struct Coord

@@ -19,9 +19,8 @@ MonoBehaviour:
   respawnTime: 1.5
   maxRotationaSpeed: 45
   levelsPerChapter: 10
-  gravity: 30
+  gravity: 35
   VelocityAfterCollision: 15
   coreRadius: 3
   segmentCount: 4
-  spawnPoinOffset: 2
-  swipeIndex: 0.7
+  swipeSpeedMultiplier: 6

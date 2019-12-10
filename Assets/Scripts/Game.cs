@@ -17,6 +17,7 @@ public class Game : IInitializable, ITickable, IFixedTickable
     private readonly World _world;
     private readonly TextMeshProUGUI _scoreText;
     private readonly List<Level> _levels;
+    private readonly Camera _camera;
 
     private Level _level;
     private Vector2 _touch;
@@ -46,6 +47,7 @@ public class Game : IInitializable, ITickable, IFixedTickable
         _world = world;
         _scoreText = scoreText;
         _levels = new List<Level>();
+        _camera = Camera.main;
 
         _signalBus.Subscribe<BallHitBorder>(OnBallHitBorder);
         _signalBus.Subscribe<BallHitCore>(OnBallHitCore);
@@ -110,7 +112,7 @@ public class Game : IInitializable, ITickable, IFixedTickable
     private void ConstructBall()
     {
         Ball = _container.InstantiatePrefabForComponent<Ball>(_mainSetting.ballPrefab);
-        Ball.Transform.position = _world.Transform.position + _level.Transform.up * (_mainSetting.coreRadius + _mainSetting.spawnPoinOffset);
+        Ball.Transform.position = _world.Transform.position + _level.Transform.up * (_mainSetting.coreRadius + _mainSetting.jumpHeight * 1.7f);
     }
 
     public void Tick()
@@ -120,20 +122,21 @@ public class Game : IInitializable, ITickable, IFixedTickable
             return;
         }
 
-        //CustomDebug.Log($"_dpi {_dpi}");
-
         if (Input.GetMouseButtonDown(0))
         {
-            _lastTouch = Input.mousePosition;
+            _lastTouch = _camera.ScreenToWorldPoint(Input.mousePosition);
             _lastTouchTime = Time.unscaledTime;
+
+            Time.timeScale = 0.90f;
+            Time.fixedDeltaTime = 0.90f * 0.02f;
         }
         else if (Input.GetMouseButton(0))
         {
-            _touch = Input.mousePosition;
+            _touch = _camera.ScreenToWorldPoint(Input.mousePosition);
             _touchTime = Time.unscaledTime;
 
             var swipeSpeed = -Mathf.Sign(_touch.x - _lastTouch.x) * (_touch - _lastTouch).magnitude / (_touchTime - _lastTouchTime);
-            _rotationalSpeed = Mathf.Lerp(_rotationalSpeed, swipeSpeed / (_mainSetting.swipeIndex * _dpi), 40.0f * Time.unscaledDeltaTime);
+            _rotationalSpeed = Mathf.Lerp(_rotationalSpeed, swipeSpeed * _mainSetting.swipeSpeedMultiplier, 40.0f * Time.unscaledDeltaTime);
             _world.Transform.Rotate(Vector3.forward, _rotationalSpeed * Time.unscaledDeltaTime);
 
             _lastTouch = _touch;
@@ -142,6 +145,9 @@ public class Game : IInitializable, ITickable, IFixedTickable
         else
         {
             _rotationalSpeed = 0.0f;
+
+            Time.timeScale = 1.0f;
+            Time.fixedDeltaTime = 0.02f;
         }
 
         //#if UNITY_ANDROID || UNITY_IOS
@@ -161,6 +167,8 @@ public class Game : IInitializable, ITickable, IFixedTickable
 
     public void AssessLevel()
     {
+        CustomDebug.Log($"Assess Level invoked");
+
         if (_level.Platforms.Where(p => p.ColorChanger).All(p => _level.Platforms.First().GetColorA() == p.GetColorA()))
         {
             CustomDebug.Log($"Level {_level.Index} passed");
@@ -216,6 +224,8 @@ public class Game : IInitializable, ITickable, IFixedTickable
             _level.Platforms[i].gameObject.SetActive(true);
             yield return new WaitForSeconds(0.1f);
         }
+
+        CustomDebug.Log($"_level.Obstacles.Count {_level.Obstacles.Count}");
 
         for (var i = 0; i < _level.Obstacles.Count; i++)
         {

@@ -76,7 +76,7 @@ MonoBehaviour:
       outWeight: 0.031175058
     - serializedVersion: 3
       time: 20
-      value: 0.3
+      value: 0.75
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -167,5 +167,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  nearestPlatformOffset: 0.5
-  ObstaclePlatformAllowableDistance: 0.75
+  ObstaclePlatformMinDistance: 0.75
+  ObstaclePlatformMaxDistance: 5

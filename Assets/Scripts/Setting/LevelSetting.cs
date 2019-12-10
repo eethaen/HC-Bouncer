@@ -12,5 +12,6 @@ public class LevelSetting : ScriptableObject
     public AnimationCurve transientPlatformPercentageCurve;
     [Tooltip("* Vertical Axis: Channel count per level *\n* Horizontal Axis: level span*")]
     public AnimationCurve channelCountCurve;
-    public float ObstaclePlatformAllowableDistance = 1.0f;
+    public float ObstaclePlatformMinDistance = 1.0f;
+    public float ObstaclePlatformMaxDistance = 3.0f;
 }

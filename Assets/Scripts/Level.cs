@@ -154,13 +154,20 @@ public class LevelFactory : IFactory<int, Level>
             level.Platforms.Where(p => p.ColorChanger && !p.Transient).ElementAt(Random.Range(0, level.Platforms.Count(p => p.ColorChanger && !p.Transient))).SetAsTransient();
         }
 
-        for (var row = 0; row < rowCount; row++)
+        for (var row = 1; row < rowCount; row++)
         {
             var r = closeRadius + row * radialInterval;
 
             for (var channelEdge = 1; channelEdge < channelCount; channelEdge++)
             {
                 var theta = 90.0f - level.Span / 2.0f + channelEdge * channelSpan;
+
+                if (Mathf.Abs(theta - 90.0f) < 5.0f)
+                {
+                    continue;
+                }
+
+                //todo Check for other conditions here not in ObstacleFactory.Create
 
                 if (Random.Range(0.0f, 1.0f) < obstacleChance)
                 {

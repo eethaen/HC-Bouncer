@@ -33,3 +33,25 @@ MonoBehaviour:
     ballColor: {r: 0, g: 0.9616327, b: 1, a: 1}
     trailColor: {r: 0, g: 0.9607843, b: 1, a: 1}
     fontColor: {r: 1, g: 1, b: 1, a: 1}
+  - backgroundColor:
+      colorA: {r: 0.03858135, g: 0.05994905, b: 0.16037738, a: 1}
+      colorB: {r: 0.06852971, g: 0.16802803, b: 0.41509432, a: 1}
+    platformColor:
+      colorA: {r: 1, g: 1, b: 1, a: 1}
+      colorB: {r: 1, g: 1, b: 1, a: 1}
+    borderColor: {r: 0, g: 0.9301295, b: 1, a: 1}
+    obstacleColor: {r: 1, g: 1, b: 1, a: 1}
+    ballColor: {r: 0, g: 0.9616327, b: 1, a: 1}
+    trailColor: {r: 0, g: 0.9607843, b: 1, a: 1}
+    fontColor: {r: 1, g: 1, b: 1, a: 1}
+  - backgroundColor:
+      colorA: {r: 0.03858135, g: 0.05994905, b: 0.16037738, a: 1}
+      colorB: {r: 0.06852971, g: 0.16802803, b: 0.41509432, a: 1}
+    platformColor:
+      colorA: {r: 1, g: 1, b: 1, a: 1}
+      colorB: {r: 1, g: 1, b: 1, a: 1}
+    borderColor: {r: 0, g: 0.9301295, b: 1, a: 1}
+    obstacleColor: {r: 1, g: 1, b: 1, a: 1}
+    ballColor: {r: 0, g: 0.9616327, b: 1, a: 1}
+    trailColor: {r: 0, g: 0.9607843, b: 1, a: 1}
+    fontColor: {r: 1, g: 1, b: 1, a: 1}
