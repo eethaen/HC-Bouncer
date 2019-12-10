@@ -17,7 +17,6 @@ public class Game : IInitializable, ITickable, IFixedTickable
     private readonly World _world;
     private readonly TextMeshProUGUI _scoreText;
     private readonly List<Level> _levels;
-    private readonly Camera _camera;
 
     private Level _level;
     private Vector2 _touch;
@@ -31,7 +30,6 @@ public class Game : IInitializable, ITickable, IFixedTickable
     private float _screenWidth;
     private bool _acceptInput;
     private int _score = 0;
-    private float _dpi;
 
     public Ball Ball { get; private set; }
     public Trail Trail { get; private set; }
@@ -47,7 +45,6 @@ public class Game : IInitializable, ITickable, IFixedTickable
         _world = world;
         _scoreText = scoreText;
         _levels = new List<Level>();
-        _camera = Camera.main;
 
         _signalBus.Subscribe<BallHitBorder>(OnBallHitBorder);
         _signalBus.Subscribe<BallHitCore>(OnBallHitCore);
@@ -66,12 +63,6 @@ public class Game : IInitializable, ITickable, IFixedTickable
         Input.multiTouchEnabled = false;
         _acceptInput = true;
         _screenWidth = Screen.width;
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-        _dpi = GetDPI();
-#else
-        _dpi = Screen.dpi;
-#endif
     }
 
     private void LoadLevel(int index)
@@ -124,19 +115,21 @@ public class Game : IInitializable, ITickable, IFixedTickable
 
         if (Input.GetMouseButtonDown(0))
         {
-            _lastTouch = _camera.ScreenToWorldPoint(Input.mousePosition);
+            _lastTouch = Input.mousePosition;
             _lastTouchTime = Time.unscaledTime;
 
-            Time.timeScale = 0.90f;
-            Time.fixedDeltaTime = 0.90f * 0.02f;
+            Time.timeScale = 0.80f;
+            Time.fixedDeltaTime = 0.80f * 0.02f;
         }
         else if (Input.GetMouseButton(0))
         {
-            _touch = _camera.ScreenToWorldPoint(Input.mousePosition);
+            _touch = Input.mousePosition;
             _touchTime = Time.unscaledTime;
 
-            var swipeSpeed = -Mathf.Sign(_touch.x - _lastTouch.x) * (_touch - _lastTouch).magnitude / (_touchTime - _lastTouchTime);
-            _rotationalSpeed = Mathf.Lerp(_rotationalSpeed, swipeSpeed * _mainSetting.swipeSpeedMultiplier, 40.0f * Time.unscaledDeltaTime);
+            var dTouch = (_touch - _lastTouch).magnitude;
+            var dAlpha = dTouch * _level.Span / _screenWidth;
+            var swipeSpeed = -Mathf.Sign(_touch.x - _lastTouch.x) * dAlpha / (_touchTime - _lastTouchTime);
+            _rotationalSpeed = Mathf.Lerp(_rotationalSpeed, swipeSpeed /** _mainSetting.swipeSpeedMultiplier*/, 40.0f * Time.unscaledDeltaTime);
             _world.Transform.Rotate(Vector3.forward, _rotationalSpeed * Time.unscaledDeltaTime);
 
             _lastTouch = _touch;

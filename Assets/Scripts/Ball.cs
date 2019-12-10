@@ -1,7 +1,7 @@
-﻿using System.Linq;
+﻿using DG.Tweening;
+using System.Linq;
 using UnityEngine;
 using Zenject;
-using DG.Tweening;
 
 public class Ball : MonoBehaviour
 {
@@ -13,18 +13,20 @@ public class Ball : MonoBehaviour
     private World _hitWorld;
     private Obstacle _hitObstacle;
     private ThematicSetting _thematicSetting;
+    private CircleCollider2D _collider;
 
     public Transform Transform { get; private set; }
     public Rigidbody2D Rigidbody { get; private set; }
     public SpriteRenderer Renderer { get; private set; }
 
     [Inject]
-    public void Construct(SignalBus signalBus, Game game, MainSetting mainSetting, ThematicSetting thematicSetting,World world, Rigidbody2D rigidbody, SpriteRenderer renderer)
+    public void Construct(SignalBus signalBus, Game game, MainSetting mainSetting, ThematicSetting thematicSetting, World world, Rigidbody2D rigidbody, SpriteRenderer renderer, CircleCollider2D collider)
     {
         _signalBus = signalBus;
         _mainSetting = mainSetting;
         _thematicSetting = thematicSetting;
         _world = world;
+        _collider = collider;
         Rigidbody = rigidbody;
         Transform = transform;
         Renderer = renderer;
@@ -62,7 +64,7 @@ public class Ball : MonoBehaviour
             _signalBus.Fire<BallHitCore>();
             Rigidbody.velocity = _mainSetting.VelocityAfterCollision * Vector2.up;
         }
-        else if (null != _hitPlatform && collision.contacts.Any(c => c.point.y < Transform.position.y))
+        else if (null != _hitPlatform && collision.contacts.Any(c => 0.8f * _collider.radius <= Transform.position.y - c.point.y))
         {
             if (_hitPlatform.ColorChanger)
             {
@@ -71,6 +73,7 @@ public class Ball : MonoBehaviour
 
             _hitPlatform.ShowOnBallCollisionFX();
             Rigidbody.velocity = _mainSetting.VelocityAfterCollision * Vector2.up;
+            //Debug.Break();
         }
     }
 
