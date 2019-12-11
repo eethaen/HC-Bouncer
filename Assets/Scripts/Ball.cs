@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Zenject;
@@ -8,28 +9,35 @@ public class Ball : MonoBehaviour
     private SignalBus _signalBus;
     private MainSetting _mainSetting;
     private World _world;
+    private CircleCollider2D _collider;
     private Platform _hitPlatform;
     private Border _hitBorder;
     private World _hitWorld;
     private Obstacle _hitObstacle;
     private ThematicSetting _thematicSetting;
-    private CircleCollider2D _collider;
+    private List<RaycastHit2D> _results;
+    private ContactFilter2D _filter;
 
     public Transform Transform { get; private set; }
     public Rigidbody2D Rigidbody { get; private set; }
     public SpriteRenderer Renderer { get; private set; }
 
     [Inject]
-    public void Construct(SignalBus signalBus, Game game, MainSetting mainSetting, ThematicSetting thematicSetting, World world, Rigidbody2D rigidbody, SpriteRenderer renderer, CircleCollider2D collider)
+    public void Construct(SignalBus signalBus, MainSetting mainSetting, ThematicSetting thematicSetting, World world, Rigidbody2D rigidbody, CircleCollider2D collider, SpriteRenderer renderer)
     {
         _signalBus = signalBus;
         _mainSetting = mainSetting;
         _thematicSetting = thematicSetting;
         _world = world;
         _collider = collider;
+
         Rigidbody = rigidbody;
         Transform = transform;
         Renderer = renderer;
+
+        _results = new List<RaycastHit2D>();
+        _filter = new ContactFilter2D();
+        _filter.NoFilter();
 
         _signalBus.Subscribe<ThemeUpdated>(OnThemeUpdated);
     }
@@ -44,12 +52,12 @@ public class Ball : MonoBehaviour
         _hitObstacle = null;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        _hitPlatform = collision.gameObject.GetComponent<Platform>();
-        _hitBorder = collision.gameObject.GetComponentInParent<Border>();
-        _hitWorld = collision.gameObject.GetComponent<World>();
-        _hitObstacle = collision.gameObject.GetComponent<Obstacle>();
+        _hitPlatform = collision.GetComponent<Platform>();
+        _hitBorder = collision.GetComponentInParent<Border>();
+        _hitWorld = collision.GetComponent<World>();
+        _hitObstacle = collision.GetComponent<Obstacle>();
 
         if (null != _hitBorder)
         {
@@ -64,8 +72,20 @@ public class Ball : MonoBehaviour
             _signalBus.Fire<BallHitCore>();
             Rigidbody.velocity = _mainSetting.VelocityAfterCollision * Vector2.up;
         }
-        else if (null != _hitPlatform && collision.contacts.Any(c => 0.8f * _collider.radius <= Transform.position.y - c.point.y))
+        else if (null != _hitPlatform && Physics2D.Raycast(Transform.position, Vector2.down, _filter, _results, _collider.radius * 1.5f) > 1)
         {
+            if (!_results.Any(c => c.point.y <= Transform.position.y && c.collider == collision))
+            {
+                for (int i = 0; i < _results.Count; i++)
+                {
+                    CustomDebug.Log($"_results[{i}].point {_results[i].point.y}");
+                }
+                
+                return;
+            }
+
+            //Debug.Break();
+
             if (_hitPlatform.ColorChanger)
             {
                 _hitPlatform.ShiftColor();
@@ -73,7 +93,7 @@ public class Ball : MonoBehaviour
 
             _hitPlatform.ShowOnBallCollisionFX();
             Rigidbody.velocity = _mainSetting.VelocityAfterCollision * Vector2.up;
-            //Debug.Break();
+
         }
     }
 

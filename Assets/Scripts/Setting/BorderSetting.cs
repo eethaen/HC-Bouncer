@@ -4,4 +4,6 @@
 public class BorderSetting : ScriptableObject
 {
     public Border prefab;
+    internal float minWidth;
+    internal float maxWidth;
 }

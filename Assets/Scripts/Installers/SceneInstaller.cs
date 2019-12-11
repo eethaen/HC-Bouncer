@@ -28,6 +28,7 @@ public class SceneInstaller : MonoInstaller
         Container.Bind<LineRenderer>().FromComponentInChildren(true);
         Container.Bind<EdgeCollider2D>().FromComponentInChildren(true);
         Container.Bind<CircleCollider2D>().FromComponentInChildren(true);
+        Container.Bind<BoxCollider2D>().FromComponentInChildren(true);
         Container.Bind<Rigidbody2D>().FromComponentInChildren(true);
         Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle();
         Container.Bind<Canvas>().FromComponentInChildren(true);

@@ -7,17 +7,32 @@ public class Border : MonoBehaviour
     public Transform Transform { get; private set; }
 
     private SpriteRenderer _renderer;
+    private Game _game;
+    private BoxCollider2D _collider;
+    private Vector2 _colliderSize;
+    private float _colliderMinWidth;
 
     [Inject]
-    public void Construct(SpriteRenderer renderer)
+    public void Construct(Game game, SpriteRenderer renderer, BoxCollider2D collider)
     {
+        _game = game;
         _renderer = renderer;
+        _collider = collider;
         Transform = transform;
+
+        _colliderSize = _collider.size;
+        _colliderMinWidth = _colliderSize.x;
     }
 
     public void SetColor(Color color)
     {
         _renderer.DOColor(color, 0.3f);
+    }
+
+    private void Update()
+    {
+        _colliderSize.x = Mathf.Lerp(_colliderMinWidth, _colliderMinWidth * 50.0f, Mathf.Abs(_game.rotationalSpeed / 400f));
+        _collider.size = _colliderSize;
     }
 
     public class Factory : PlaceholderFactory<float, Border>

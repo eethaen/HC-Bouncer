@@ -15,16 +15,13 @@ public class Game : IInitializable, ITickable, IFixedTickable
     private readonly ThematicSetting _thematicSetting;
     private readonly Level.Factory _levelFactory;
     private readonly World _world;
+    private readonly Camera _camera;
     private readonly TextMeshProUGUI _scoreText;
     private readonly List<Level> _levels;
+    private Vector3 _touchWorld;
+    private Vector3 _lastTouchWorld;
 
-    private Level _level;
-    private Vector2 _touch;
-    private Vector2 _lastTouch;
-    private float _touchTime;
-    private float _lastTouchTime;
 
-    private float _rotationalSpeed;
     private float _touchDir;
     private float _touchSpeed;
     private float _screenWidth;
@@ -33,6 +30,8 @@ public class Game : IInitializable, ITickable, IFixedTickable
 
     public Ball Ball { get; private set; }
     public Trail Trail { get; private set; }
+    public float rotationalSpeed { get; private set; }
+    public Level Level { get; private set; }
 
     public Game(DiContainer container, SignalBus signalBus, AsyncProcessor asyncProcessor, MainSetting mainSetting, ThematicSetting thematicSetting, Level.Factory levelFactory, World world, TextMeshProUGUI scoreText)
     {
@@ -43,6 +42,7 @@ public class Game : IInitializable, ITickable, IFixedTickable
         _thematicSetting = thematicSetting;
         _levelFactory = levelFactory;
         _world = world;
+        _camera = Camera.main;
         _scoreText = scoreText;
         _levels = new List<Level>();
 
@@ -67,19 +67,19 @@ public class Game : IInitializable, ITickable, IFixedTickable
 
     private void LoadLevel(int index)
     {
-        _level = _levelFactory.Create(index);
-        _signalBus.Fire(new LevelLoaded { level = _level });
-        _levels.Add(_level);
+        Level = _levelFactory.Create(index);
+        _signalBus.Fire(new LevelLoaded { level = Level });
+        _levels.Add(Level);
 
-        if (_level.Index % _mainSetting.levelsPerChapter == 0)
+        if (Level.Index % _mainSetting.levelsPerChapter == 0)
         {
-            _signalBus.Fire(new ThemeUpdated() { levelIndex = _level.Index });
+            _signalBus.Fire(new ThemeUpdated() { levelIndex = Level.Index });
 
-            var pallete = _thematicSetting.ChapterPalletes[_level.Index / _mainSetting.levelsPerChapter];
+            var pallete = _thematicSetting.ChapterPalletes[Level.Index / _mainSetting.levelsPerChapter];
             _scoreText.DOColor(pallete.fontColor, 0.3f);
         }
 
-        CustomDebug.Log($"Level {_level.Index} loaded");
+        CustomDebug.Log($"Level {Level.Index} loaded");
     }
 
     private void UnloadLevel(int index)
@@ -103,7 +103,7 @@ public class Game : IInitializable, ITickable, IFixedTickable
     private void ConstructBall()
     {
         Ball = _container.InstantiatePrefabForComponent<Ball>(_mainSetting.ballPrefab);
-        Ball.Transform.position = _world.Transform.position + _level.Transform.up * (_mainSetting.coreRadius + _mainSetting.jumpHeight * 1.7f);
+        Ball.Transform.position = _world.Transform.position + Level.Transform.up * (_mainSetting.coreRadius + _mainSetting.jumpHeight * 1.7f);
     }
 
     public void Tick()
@@ -115,30 +115,29 @@ public class Game : IInitializable, ITickable, IFixedTickable
 
         if (Input.GetMouseButtonDown(0))
         {
-            _lastTouch = Input.mousePosition;
-            _lastTouchTime = Time.unscaledTime;
+            _lastTouchWorld = _camera.ScreenToWorldPoint(Input.mousePosition);
 
             Time.timeScale = 0.80f;
             Time.fixedDeltaTime = 0.80f * 0.02f;
         }
         else if (Input.GetMouseButton(0))
         {
-            _touch = Input.mousePosition;
-            _touchTime = Time.unscaledTime;
+            _touchWorld = _camera.ScreenToWorldPoint(Input.mousePosition);
 
-            var dTouch = (_touch - _lastTouch).magnitude;
-            var dAlpha = dTouch * _level.Span / _screenWidth;
-            var swipeSpeed = -Mathf.Sign(_touch.x - _lastTouch.x) * dAlpha / (_touchTime - _lastTouchTime);
-            _rotationalSpeed = Mathf.Lerp(_rotationalSpeed, swipeSpeed /** _mainSetting.swipeSpeedMultiplier*/, 40.0f * Time.unscaledDeltaTime);
-            _world.Transform.Rotate(Vector3.forward, _rotationalSpeed * Time.unscaledDeltaTime);
+            var dAlpha = Vector3.SignedAngle( (_lastTouchWorld - _world.Transform.position), (_touchWorld - _world.Transform.position), Vector3.forward);
+            rotationalSpeed = dAlpha / Time.unscaledDeltaTime;
 
-            _lastTouch = _touch;
-            _lastTouchTime = _touchTime;
+            //var dTouch = (_touch - _lastTouch).magnitude;
+            //var dAlpha = dTouch * _level.Span / _screenWidth;
+            //var swipeSpeed = -Mathf.Sign(_touch.x - _lastTouch.x) * dAlpha / (_touchTime - _lastTouchTime);
+            //rotationalSpeed = swipeSpeed;
+            CustomDebug.Log($"rotationalSpeed {rotationalSpeed}");
+            _world.Transform.Rotate(Vector3.forward, rotationalSpeed * Time.unscaledDeltaTime);
+
+            _lastTouchWorld = _touchWorld;
         }
         else
         {
-            _rotationalSpeed = 0.0f;
-
             Time.timeScale = 1.0f;
             Time.fixedDeltaTime = 0.02f;
         }
@@ -162,9 +161,9 @@ public class Game : IInitializable, ITickable, IFixedTickable
     {
         CustomDebug.Log($"Assess Level invoked");
 
-        if (_level.Platforms.Where(p => p.ColorChanger).All(p => _level.Platforms.First().GetColorA() == p.GetColorA()))
+        if (Level.Platforms.Where(p => p.ColorChanger).All(p => Level.Platforms.First().GetColorA() == p.GetColorA()))
         {
-            CustomDebug.Log($"Level {_level.Index} passed");
+            CustomDebug.Log($"Level {Level.Index} passed");
             LevelPassed();
         }
     }
@@ -188,7 +187,7 @@ public class Game : IInitializable, ITickable, IFixedTickable
 
         Trail.gameObject.SetActive(false);
 
-        var angle = Vector2.SignedAngle(Vector2.up, _level.Transform.up);
+        var angle = Vector2.SignedAngle(Vector2.up, Level.Transform.up);
 
         _world.Transform.DORotate(new Vector3(0.0f, 0.0f, -angle), _mainSetting.respawnTime, RotateMode.WorldAxisAdd)
                       .SetEase(Ease.InOutQuad)
@@ -204,7 +203,7 @@ public class Game : IInitializable, ITickable, IFixedTickable
 
     private void OnBallHitCore()
     {
-        if (!_level.Revealed)
+        if (!Level.Revealed)
         {
             _asyncProcessor.StartCoroutine(RevealLevel());
         }
@@ -212,29 +211,29 @@ public class Game : IInitializable, ITickable, IFixedTickable
 
     private IEnumerator RevealLevel()
     {
-        for (var i = 0; i < _level.Platforms.Count; i++)
+        for (var i = 0; i < Level.Platforms.Count; i++)
         {
-            _level.Platforms[i].gameObject.SetActive(true);
+            Level.Platforms[i].gameObject.SetActive(true);
             yield return new WaitForSeconds(0.1f);
         }
 
-        CustomDebug.Log($"_level.Obstacles.Count {_level.Obstacles.Count}");
+        CustomDebug.Log($"_level.Obstacles.Count {Level.Obstacles.Count}");
 
-        for (var i = 0; i < _level.Obstacles.Count; i++)
+        for (var i = 0; i < Level.Obstacles.Count; i++)
         {
-            _level.Obstacles[i].gameObject.SetActive(true);
+            Level.Obstacles[i].gameObject.SetActive(true);
             yield return new WaitForSeconds(0.1f);
         }
 
-        _level.Revealed = true;
+        Level.Revealed = true;
     }
 
     private void LevelPassed()
     {
         UpdateScore(_score + 1);
         //GameObject.Destroy(Level.gameObject);
-        UnloadLevel(_level.Index - 3);
-        LoadLevel(_level.Index + 1);
+        UnloadLevel(Level.Index - 3);
+        LoadLevel(Level.Index + 1);
         ReorientLevel();
     }
 

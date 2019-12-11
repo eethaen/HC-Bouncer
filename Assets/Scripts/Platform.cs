@@ -46,7 +46,7 @@ public class Platform : MonoBehaviour
         _colorAID = Shader.PropertyToID("_ColorA");
         _colorBID = Shader.PropertyToID("_ColorB");
 
-        _signalBus.Subscribe<LevelLoaded>(OnLevelLoaded);
+        //_signalBus.Subscribe<LevelLoaded>(OnLevelLoaded);
     }
 
     public void Init(Level level)
@@ -114,6 +114,11 @@ public class Platform : MonoBehaviour
 
     public void ShiftColor()
     {
+        if (_level.Index!=_game.Level.Index)
+        {
+            return;
+        }
+
         CustomDebug.Assert(ColorChanger);
 
         if (Transient)
@@ -220,23 +225,23 @@ public class Platform : MonoBehaviour
                  });
     }
 
-    private void OnLevelLoaded(LevelLoaded msg)
-    {
-        if (this==null)
-        {
-            return;
-        }
+    //private void OnLevelLoaded(LevelLoaded msg)
+    //{
+    //    if (this==null)
+    //    {
+    //        return;
+    //    }
 
-        if (null == _level)
-        {
-            _level = msg.level;
-        }
-        else if (_level.Index != msg.level.Index)
-        {
-            CancelInvoke();
-            _renderer.material.DOKill();
-        }
-    }
+    //    if (null == _level)
+    //    {
+    //        _level = msg.level;
+    //    }
+    //    else if (_level.Index != msg.level.Index)
+    //    {
+    //        CancelInvoke();
+    //        _renderer.material.DOKill();
+    //    }
+    //}
 
     public struct Coord
     {

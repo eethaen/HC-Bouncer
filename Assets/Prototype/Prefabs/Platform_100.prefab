@@ -7,6 +7,56 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5783518700819983767, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5783518700819983767, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -5783518700819983767, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -5783518700819983767, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: -5783518700819983767, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: -5783518700819983767, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 1.01
+      objectReference: {fileID: 0}
+    - target: {fileID: -5783518700819983767, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: -5783518700819983767, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -5783518700819983767, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5783518700819983767, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.13
+      objectReference: {fileID: 0}
     - target: {fileID: 3545752017728321923, guid: 3aa1f0cee7b5b1d4bb41701093a95bce,
         type: 3}
       propertyPath: m_Name
