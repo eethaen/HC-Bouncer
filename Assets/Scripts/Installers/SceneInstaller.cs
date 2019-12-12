@@ -45,6 +45,7 @@ public class SceneInstaller : MonoInstaller
         Container.BindInstance(_obstacleSetting).AsSingle();
         Container.BindInstance(_scoreText).AsSingle();
 
+        Container.BindFactory<World, World.Factory>().FromFactory<WorldFactory>();
         Container.BindFactory<int, Level, Level.Factory>().FromFactory<LevelFactory>();
         Container.BindFactory<float, Border, Border.Factory>().FromFactory<BorderFactory>();
         Container.BindFactory<Platform.Coord, Level, Platform, Platform.Factory>().FromFactory<PlatformFactory>();
@@ -62,7 +63,7 @@ public class SceneInstaller : MonoInstaller
         Container.DeclareSignal<BallHitBorder>();
         Container.DeclareSignal<BallHitObstacle>();
         Container.DeclareSignal<BallHitCore>();
-        Container.DeclareSignal<LevelLoaded>();
         Container.DeclareSignal<ThemeUpdated>();
+        Container.DeclareSignal<ResetGame>();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -33,6 +34,11 @@ public class World : MonoBehaviour
         EdgeCollider = edgeCollider;
 
         _signalBus.Subscribe<ThemeUpdated>(OnThemeUpdated);
+    }
+
+    private void OnEnable()
+    {
+        Construct();
     }
 
     public void Construct()
@@ -84,5 +90,24 @@ public class World : MonoBehaviour
         {
             _borders[i].SetColor(palette.borderColor);
         }
+    }
+
+    public class Factory : PlaceholderFactory<World> { }
+}
+
+public class WorldFactory : IFactory<World>
+{
+    private readonly DiContainer _container;
+    private readonly MainSetting _mainSetting;
+
+    public WorldFactory(DiContainer container,MainSetting mainSetting)
+    {
+        _container = container;
+        _mainSetting = mainSetting;
+    }
+
+    public World Create()
+    {
+        return _container.InstantiatePrefabForComponent<World>(_mainSetting.worldPrefab);
     }
 }

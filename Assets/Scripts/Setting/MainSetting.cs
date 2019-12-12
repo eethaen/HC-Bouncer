@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Main Setting", menuName = "Setting/Main", order = 0)]
 public class MainSetting : ScriptableObject
 {
-
+    public World worldPrefab;
     public Trail trailPrefab;
     public Ball ballPrefab;
 
@@ -17,9 +17,11 @@ public class MainSetting : ScriptableObject
     public float coreRadius = 3.0f;
     public int segmentCount = 5;
     public float swipeSpeedMultiplier = 1.0f;
+    public float rotationalSpeed = 500.0f;
+    public InputMode inputMode;
 
     public float jumpTime => VelocityAfterCollision / gravity;
 
     public float jumpHeight => -0.5f * gravity * jumpTime * jumpTime + VelocityAfterCollision * jumpTime;
-    
+
 }
